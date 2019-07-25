@@ -15,9 +15,6 @@ D:\pythonEnv>virtualenv venv-androguard
 
 
 
-
-
-
 //激活相应虚拟的目录 
 //D:\pythonEnv>cd venv-androguard
 //D:\pythonEnv\venv-androguard>virtualenv activate
@@ -203,8 +200,11 @@ Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
 查找调用了 Landroid/database/sqlite/SQLiteDatabase;->query 的地方 
 query = dx.find_methods(classname="Landroid/database/sqlite/SQLiteDatabase", methodname="query")
-
-
+for q in query:
+	xref_from = q.get_xref_from()
+	for x in xref_from:
+		ca, ecMeth, idx = x
+		print("{}->{}{}".format(ca.name, ecMeth.get_name(), ecMeth.get_descriptor().replace(" ", "")))
 
 
 
@@ -266,3 +266,4 @@ v1, Landroid/telephony/gsm/GsmCellLocation;->getLac()I
 
 
 # test from other pc develop_2 repository
+# 有些字段使用 find_field 扫不到 
