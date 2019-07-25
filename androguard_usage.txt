@@ -1,0 +1,268 @@
+
+
+https://www.cnblogs.com/jasmine-Jobs/p/7045016.html
+
+
+安装 virtualenv
+pip3 install virtualenv 
+D:\pythonEnv>pip3 install virtualenvwrapper
+D:\pythonEnv>pip3 install virtualenvwrapper-win　　#Windows使用该命令
+
+
+
+选择某一个目录进行虚拟
+D:\pythonEnv>virtualenv venv-androguard
+
+
+
+
+
+
+//激活相应虚拟的目录 
+//D:\pythonEnv>cd venv-androguard
+//D:\pythonEnv\venv-androguard>virtualenv activate
+
+启动虚拟环境
+# 进入虚拟环境文件
+cd envname
+# 进入相关的启动文件夹
+cd Scripts
+activate  # 启动虚拟环境
+deactivate # 退出虚拟环境
+
+
+D:\pythonEnv>cd venv-androguard/Scripts
+D:\pythonEnv\venv-androguard\Scripts>activate
+(venv-androguard) D:\pythonEnv\venv-androguard\Scripts>
+
+
+
+
+//退出激活环境
+//D:\pythonEnv\venv-androguard>virtualenv deactivate
+
+(venv-androguard) D:\pythonEnv\venv-androguard\Scripts>deactivate
+D:\pythonEnv\venv-androguard\Scripts>
+
+
+
+安装androguard
+(venv-androguard) D:\pythonEnv\venv-androguard\Scripts>pip3 install -U androguard
+
+
+
+
+--------------------------------------------------------------------------------------
+
+pip3 install -U androguard[magic,GUI]
+
+C:\Users\Admin>pip3 install -U python-magic
+
+androguard Usage:
+
+C:\Users\Admin>python D:\python\python37\Scripts\androarsc.py -i E:\apktest\qq_v5.3.1.apk
+
+
+启动命令行:
+C:\Users\Admin>androguard analyze
+Androguard version 3.3.5 started
+In [1]:
+
+// https://react.ctolib.com/article/comments/8504
+In [7]: from androguard.misc import AnalyzeAPK
+In [9]: a,d,dx = AnalyzeAPK("E:\\apktest\\qq_v5.3.1.apk")
+// The three objects you get are a an APK object, d an array of DalvikVMFormat object and dx an Analysis object.
+
+In [10]: a.get_permissions()
+
+In [11]: a.get_package()
+Out[11]: 'com.tencent.mobileqq'
+
+In [12]: a.get_app_name()
+Out[12]: 'QQ'
+
+In [13]: a.get_app_icon()
+Out[13]: 'R/m/hcw.png'
+
+In [14]: a.get_androidversion_code()
+Out[14]: '196'
+
+In [15]: a.get_androidversion_name()
+Out[15]: '5.3.1'
+
+In [16]: a.get_max_sdk_version()
+
+In [17]: a.get_min_sdk_version()
+Out[17]: '8'
+
+In [18]: a.get_target_sdk_version()
+
+In [19]: a.get_effective_target_sdk_version()
+Out[19]: 8
+
+
+------------------------------------------------------------------------------------------------
+
+python idle 
+
+>>> from androguard.misc import AnalyzeAPK
+>>> a,d,dx = AnalyzeAPK("E:\\apktest\\qq_v5.3.1.apk")
+>>> lac = dx.find_methods(classname="Landroid/telephony/TelephonyManager", methodname="getLac()")
+>>> print(len(list(lac)))
+0
+>>> lac = dx.find_methods(classname="Landroid/telephony/gsm/GsmCellLocation", methodname="getLac()")
+>>> methodClzAna = list(lac)[0]
+>>> print(methodClzAna.name)
+getLac
+>>> print(methodClzAna.descriptor)
+()I
+>>> print(methodClzAna.get_method())
+Landroid/telephony/gsm/GsmCellLocation;->getLac()I
+>>> print(type(methodClzAna.get_method()))
+<class 'androguard.core.analysis.analysis.ExternalMethod'>
+>>> extMeth = methodClzAna.get_method()
+>>> print(extMeth.descriptor)
+['()', 'I']
+>>> print(extMeth.name)
+getLac
+>>> print(extMeth.get_descriptor())
+()I
+
+>>> print(extMeth.__repr__)
+<bound method ExternalMethod.__repr__ of <analysis.ExternalMethod Landroid/telephony/gsm/GsmCellLocation;->getLac()I>>
+>>> print(extMeth)
+Landroid/telephony/gsm/GsmCellLocation;->getLac()I
+>>> print("{}".format(extMeth))
+Landroid/telephony/gsm/GsmCellLocation;->getLac()I
+>>> xref_from = methodClzAna.get_xref_from()
+>>> print(type(xref_from))
+<class 'set'>
+>>> print(len(xref_from))
+1
+>>> print(xref_from[0])
+Traceback (most recent call last):
+  File "<pyshell#28>", line 1, in <module>
+    print(xref_from[0])
+TypeError: 'set' object does not support indexing
+>>> for i in xref_from:
+	print(type(i))
+
+<class 'tuple'>
+>>> for i in xref_from:
+	print((i))
+
+(<analysis.ClassAnalysis Lcom/tencent/qphone/base/util/d;>, <androguard.core.bytecodes.dvm.EncodedMethod object at 0x000000001DF977F0>, 52)
+
+>>> for i in xref_from:
+	clzAna, ecMeth, idx = i
+
+>>> print(type(clzAna))
+<class 'androguard.core.analysis.analysis.ClassAnalysis'>
+>>> print(type(ecMeth))
+<class 'androguard.core.bytecodes.dvm.EncodedMethod'>
+>>> print(idx)
+52
+>>> print(clzAna.get_vm_class().get_name())
+Lcom/tencent/qphone/base/util/d;
+
+
+
+
+
+获取method中调用的方法:
+>>> meth = dx.find_methods(classname="Lcooperation/qqfav/content/FavoritesProvider;", methodname="query")
+>>> methAna = list(meth)[0]
+>>> xref_to = methAna.get_xref_to()
+>>> print(len(list(xref_to)))
+19
+>>> for x in xref_to:
+	ca, ecMeth, idx = x
+	print("{}->{}{}".format(ca.name, ecMeth.get_name(), ecMeth.get_descriptor().replace(" ", "")))
+
+Lcooperation/qqfav/content/Favorites$IProxy;->a(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+Ljava/lang/Object;->toString()Ljava/lang/String;
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+Ljava/lang/Object;->toString()Ljava/lang/String;
+Lcooperation/qqfav/content/FavoritesProvider;->a(Landroid/net/Uri;)Lcooperation/qqfav/content/Favorites$IProxy;
+Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+Lcom/tencent/qphone/base/util/QLog;->d(Ljava/lang/String;ILjava/lang/String;)V
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+Lcom/tencent/qphone/base/util/QLog;->isDevelopLevel()Z
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+Ljava/lang/StringBuilder;-><init>()V
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+Landroid/net/Uri;->toString()Ljava/lang/String;
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+
+
+查找调用了 Landroid/database/sqlite/SQLiteDatabase;->query 的地方 
+query = dx.find_methods(classname="Landroid/database/sqlite/SQLiteDatabase", methodname="query")
+
+
+
+
+
+>>> print(ecMeth.get_address())
+6135372
+>>> print(ecMeth.get_access_flags_string())
+public
+>>> print(ecMeth.get_information())
+{'registers': (0, 8), 'params': [(9, 'android.telephony.CellLocation')], 'return': 'void'}
+>>> print(ecMeth.get_short_string())
+d onCellLocationChanged (CellLocation)V
+>>> print(ecMeth.get_descriptor())
+(Landroid/telephony/CellLocation;)V
+>>> print(ecMeth.get_name())
+onCellLocationChanged
+>>> print(ecMeth.get_class_name())
+Lcom/tencent/qphone/base/util/d;
+>>> print(ecMeth.get_instruction(idx))
+<androguard.core.bytecodes.dvm.Instruction22t object at 0x000000003BC78128>
+>>> ins = ecMeth.get_instruction(idx)
+>>> print(ins.get_name())
+if-eq
+
+
+>>> print(ins.get_op_value())
+50
+
+>>> bc = ecMeth.get_code().get_bc()
+>>> insList = list(bc.get_instructions())
+>>> print(len(insList))
+140
+>>> found_index = bc.off_to_pos(idx)
+>>> print(found_index)
+14
+>>> print(insList[found_index].get_name())
+invoke-virtual
+>>> print(insList[found_index].show_buff(0))
+v1, Landroid/telephony/gsm/GsmCellLocation;->getLac()I
+>>> 
+>>> 
+>>> print(type(bc))
+<class 'androguard.core.bytecodes.dvm.DCode'>
+>>> print(type(insList))
+<class 'list'>
+>>> insl = ecMeth.get_instructions()
+>>> print(insl == insList)
+False
+>>> print(insl == bc.get_instructions())
+False
+
+
+
+>>> print(insList[found_index].get_name())
+invoke-virtual
+>>> print(insList[found_index].show_buff(0))
+v1, Landroid/telephony/gsm/GsmCellLocation;->getLac()I
+>>> print(insList[found_index].get_output())
+v1, Landroid/telephony/gsm/GsmCellLocation;->getLac()I
+
+
+
