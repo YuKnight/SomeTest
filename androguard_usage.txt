@@ -15,9 +15,6 @@ D:\pythonEnv>virtualenv venv-androguard
 
 
 
-
-
-
 //激活相应虚拟的目录 
 //D:\pythonEnv>cd venv-androguard
 //D:\pythonEnv\venv-androguard>virtualenv activate
@@ -268,4 +265,4 @@ v1, Landroid/telephony/gsm/GsmCellLocation;->getLac()I
 v1, Landroid/telephony/gsm/GsmCellLocation;->getLac()I
 
 
-
+# 有些字段使用 find_field 扫不到 
