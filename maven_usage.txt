@@ -1,0 +1,217 @@
+在Maven项目中使用本地JAR包有两种方法：
+1. 使用system scope
+<dependencies>
+<dependency>
+<groupId>org.richard</groupId>
+<artifactId>my-jar</artifactId>
+<version>1.0</version>
+<scope>system</scope>
+<systemPath>${project.basedir}/lib/my-jar.jar</systemPath>
+</dependency>
+</dependencies>
+system scope引入的包，在使用jar-with-dependencies打包时将不会被包含，可以使用resources将本地包打进jar-with-dependencies
+<build>
+<plugins>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-shade-plugin</artifactId>
+<executions>
+<execution>
+<id>make-assembly</id>
+<phase>package</phase>
+<goals>
+<goal>shade</goal>
+</goals>
+<configuration>
+<descriptorRefs>
+<descriptorRef>jar-with-dependencies</descriptorRef>
+</descriptorRefs>
+<finalName>xxx-jar-with-dependencies</finalName>
+</configuration>
+</execution>
+</executions>
+</plugin>
+</plugins>
+<resources>
+<resource>
+<targetPath>lib/</targetPath>
+<directory>lib/</directory>
+<includes>
+<include>**/my-jar.jar</include>
+</includes>
+</resource>
+</resources>
+</build>
+生成的xxx-jar-with-dependencies.jar中，将会包含lib目录以及my-jar.jar，并且能够被在执行的时候被找到。
+有的时候这种方法会实效，比如JDBCDriver在声明的时候Class.forName("xxx.Driver")就会说找不到类，用下面两种方法就可以。
+2. 将jar包安装到本地repository中
+mvn install:install-file -Dfile=my-jar.jar -DgroupId=org.richard -DartifactId=my-jar -Dversion=1.0 -Dpackaging=jar
+3. 添加 in project repository，在新机器上执行时就不用运行mvn install:install-file命令了
+<repository>
+<id>in-project</id>
+<name>In Project Repo</name>
+<url>file://${project.basedir}/lib</url>
+</repository>
+<dependency>
+<groupId>org.richard</groupId>
+<artifactId>my-jar</artifactId>
+<version>1.0</version>
+</dependency>
+你的jar包及路径必须严格遵循格式：
+/groupId/artifactId/version/artifactId-verion.jar
+本例中： lib/org/richard/my-jar/1.0/my-jar-1.0.jar
+
+
+https://maven.apache.org/pom.html#Maven_Coordinates
+
+
+根据maven配置获取jar包下载地址 
+<dependency>
+	<!-- 当前jar所属的命名空间 -->
+	<groupId>junit</groupId>
+	<!-- 依赖的项目模块的名称 -->
+	<artifactId>junit</artifactId>
+	<!-- 依赖的版本号 -->
+	<version>4.9</version>
+	<!-- 依赖的范围, 有 test compile privlege -->
+	<scope>test</scope>
+</dependency>	
+
+
+坐标的组成： groupId + artifactId+ version
+
+https://blog.packagecloud.io/eng/2017/03/09/how-does-a-maven-repository-work/
+
+<dependency>
+  <groupId>com.testinium.deviceinformation</groupId>
+  <artifactId>device-information</artifactId>
+  <version>1.0</version>
+</dependency>
+
+com.testinium.deviceinformation device-information 1.0
+
+com.testinium.deviceinformation:device-information:1.0
+
+com/testinium/deviceinformation/device-information/1.0/device-information-1.0.jar
+http://central.maven.org/maven2/com/testinium/deviceinformation/device-information/1.0/device-information-1.0.jar
+
+<dependency>
+  <groupId>io.appium</groupId>
+  <artifactId>java-client</artifactId>
+  <version>4.1.2</version>
+</dependency>
+
+Java Client » 4.1.2
+Java client for Appium Mobile Webdriver
+http://central.maven.org/maven2/io/appium/java-client/4.1.2/java-client-4.1.2.jar
+
+org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar
+
+http://central.maven.org/maven2/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar
+
+http://central.maven.org/maven2/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7.jar
+
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-exec</artifactId>
+  <version>1.3</version>
+</dependency>
+http://central.maven.org/maven2/org/apache/commons/commons-exec/1.3/commons-exec-1.3.jar
+
+
+http://central.maven.org/maven2/org/json/json/20090211/json-20090211.jar
+
+com/google/code/gson  gson/2.8.2/gson-2.8.2.jar
+http://central.maven.org/maven2/
+http://central.maven.org/maven2/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar
+
+
+<dependency>
+	<groupId>org.mockito</groupId>
+	<artifactId>mockito-core</artifactId>
+	<version>${mockito-core.version}</version>
+</dependency>
+
+org/mockito
+
+
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+<dependency>
+    <groupId>com.github.vidstige</groupId>
+    <artifactId>jadb</artifactId>
+    <version>v1.1.0</version>
+</dependency>
+
+com/github/vidstige   jadb/v1.1.0/jadb-v1.1.0.jar
+
+https://jitpack.io/com/github/vidstige/jadb/v1.1.0/jadb-v1.1.0.jar
+
+下载maven : http://maven.apache.org/download.cgi
+配置maven的M2_HOME路径，添加maven安装目录/bin到path环境 
+
+如何在eclipse中配置maven项目:
+https://jingyan.baidu.com/article/59703552cb9b988fc00740a4.html
+
+maven 编译
+mvn compile 
+
+
+
+
+
+
+gradle 下载 
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    
+    compile files('tools/apktool.jar')
+    
+    compile 'org.jdom:jdom:1.1'
+ 	compile 'org.apache.logging.log4j:log4j-api:2.5'
+    compile 'org.apache.logging.log4j:log4j-core:2.5'
+    compile 'org.antlr:antlr-runtime:3.5'
+}
+
+Download https://repo1.maven.org/maven2/org/jdom/jdom/1.1/jdom-1.1.pom
+Download https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.5/l
+og4j-api-2.5.pom
+Download https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j/2.5/log4j
+-2.5.pom
+Download https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.5/
+log4j-core-2.5.pom
+Download https://repo1.maven.org/maven2/org/antlr/antlr-runtime/3.5/antlr-runtim
+e-3.5.pom
+Download https://repo1.maven.org/maven2/org/antlr/antlr-master/3.5/antlr-master-
+3.5.pom
+Download https://repo1.maven.org/maven2/org/antlr/stringtemplate/3.2.1/stringtem
+plate-3.2.1.pom
+Download https://repo1.maven.org/maven2/antlr/antlr/2.7.7/antlr-2.7.7.pom
+Download https://repo1.maven.org/maven2/commons-collections/commons-collections/
+3.2/commons-collections-3.2.jar
+
+gradle 编译 
+gradle build 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

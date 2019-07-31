@@ -1,0 +1,181 @@
+
+前面使用 https://my.oschina.net/u/876354/blog/967848
+在最后一步使用 https://www.cnblogs.com/feiyun126/p/7680534.html
+
+输入指令
+fdisk -l
+
+
+
+创建分区 sda3
+输入指令
+fdisk /dev/sda
+
+
+
+再次查看分区情况
+fdisk -l
+这时可以看到
+
+
+
+重启操作系统
+reboot
+
+
+[yuk@localhost ~]$ sudo mkfs -t ext3 /dev/sda3
+[sudo] yuk 的密码：
+mke2fs 1.42.9 (28-Dec-2013)
+文件系统标签=
+OS type: Linux
+块大小=4096 (log=2)
+分块大小=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+3276800 inodes, 13107200 blocks
+655360 blocks (5.00%) reserved for the super user
+第一个数据块=0
+Maximum filesystem blocks=4294967296
+400 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+	4096000, 7962624, 11239424
+
+Allocating group tables: 完成                            
+正在写入inode表: 完成                            
+Creating journal (32768 blocks): 完成
+Writing superblocks and filesystem accounting information: 完成   
+
+[yuk@localhost ~]$ sudo lvs
+  LV   VG     Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root centos -wi-ao---- 26.99g                                                    
+  swap centos -wi-ao----  2.00g                                                    
+[yuk@localhost ~]$ pvcreate /dev/sda3
+  WARNING: Running as a non-root user. Functionality may be unavailable.
+  /run/lvm/lvmetad.socket: access failed: 权限不够
+  WARNING: Failed to connect to lvmetad. Falling back to device scanning.
+  /run/lock/lvm/P_orphans:aux: open failed: 权限不够
+  Can't get lock for orphan PVs.
+[yuk@localhost ~]$ df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root   27G   14G   14G   49% /
+devtmpfs                 894M     0  894M    0% /dev
+tmpfs                    910M     0  910M    0% /dev/shm
+tmpfs                    910M   11M  900M    2% /run
+tmpfs                    910M     0  910M    0% /sys/fs/cgroup
+/dev/sda1               1014M  233M  782M   23% /boot
+tmpfs                    182M   16K  182M    1% /run/user/1000
+/dev/sr0                 4.3G  4.3G     0  100% /run/media/yuk/CentOS 7 x86_64
+[yuk@localhost ~]$ su root
+密码：
+[root@localhost yuk]# lvs
+  LV   VG     Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root centos -wi-ao---- 26.99g                                                    
+  swap centos -wi-ao----  2.00g                                                    
+[root@localhost yuk]# pvcreate /dev/sda3
+WARNING: ext3 signature detected on /dev/sda3 at offset 1080. Wipe it? [y/n]: y
+  Wiping ext3 signature on /dev/sda3.
+  Physical volume "/dev/sda3" successfully created.
+[root@localhost yuk]# df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root   27G   14G   14G   49% /
+devtmpfs                 894M     0  894M    0% /dev
+tmpfs                    910M     0  910M    0% /dev/shm
+tmpfs                    910M   11M  900M    2% /run
+tmpfs                    910M     0  910M    0% /sys/fs/cgroup
+/dev/sda1               1014M  233M  782M   23% /boot
+tmpfs                    182M   16K  182M    1% /run/user/1000
+/dev/sr0                 4.3G  4.3G     0  100% /run/media/yuk/CentOS 7 x86_64
+[root@localhost yuk]# vgextend centos-root /dev/sda3
+  Volume group "centos-root" not found
+  Cannot process volume group centos-root
+[root@localhost yuk]# vgextend centos /dev/sda3
+  Volume group "centos" successfully extended
+[root@localhost yuk]# vgdisplay
+  --- Volume group ---
+  VG Name               centos
+  System ID             
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  4
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               2
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               78.99 GiB
+  PE Size               4.00 MiB
+  Total PE              20222
+  Alloc PE / Size       7422 / 28.99 GiB
+  Free  PE / Size       12800 / 50.00 GiB
+  VG UUID               aGp30c-uqxL-9w7t-tf14-AzHj-Gq3v-Ipkw9R
+   
+[root@localhost yuk]# lvextend -L+50G /dev/mapper/centos-root /dev/sda3
+  Insufficient free space: 12800 extents needed, but only 12799 available
+[root@localhost yuk]# lvextend -L+49G /dev/mapper/centos-root /dev/sda3
+  Size of logical volume centos/root changed from 26.99 GiB (6910 extents) to 75.99 GiB (19454 extents).
+  Logical volume centos/root successfully resized.
+[root@localhost yuk]# e2fsck -a /dev/mapper/centos-root
+/dev/mapper/centos-root is mounted.
+e2fsck: 无法继续, 中止.
+
+[root@localhost yuk]# df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root   27G   14G   14G   49% /
+devtmpfs                 894M     0  894M    0% /dev
+tmpfs                    910M     0  910M    0% /dev/shm
+tmpfs                    910M   11M  900M    2% /run
+tmpfs                    910M     0  910M    0% /sys/fs/cgroup
+/dev/sda1               1014M  233M  782M   23% /boot
+tmpfs                    182M   16K  182M    1% /run/user/1000
+/dev/sr0                 4.3G  4.3G     0  100% /run/media/yuk/CentOS 7 x86_64
+[root@localhost yuk]# e2fsck -a /dev/mapper/centos-root
+/dev/mapper/centos-root is mounted.
+e2fsck: 无法继续, 中止.
+
+[root@localhost yuk]# xfs_growfs /dev/mapper/centos-root
+meta-data=/dev/mapper/centos-root isize=512    agcount=4, agsize=1768960 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0 spinodes=0
+data     =                       bsize=4096   blocks=7075840, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal               bsize=4096   blocks=3455, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 7075840 to 19920896
+[root@localhost yuk]# df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+/dev/mapper/centos-root   76G   14G   63G   18% /
+devtmpfs                 894M     0  894M    0% /dev
+tmpfs                    910M     0  910M    0% /dev/shm
+tmpfs                    910M   11M  900M    2% /run
+tmpfs                    910M     0  910M    0% /sys/fs/cgroup
+/dev/sda1               1014M  233M  782M   23% /boot
+tmpfs                    182M   16K  182M    1% /run/user/1000
+/dev/sr0                 4.3G  4.3G     0  100% /run/media/yuk/CentOS 7 x86_64
+[root@localhost yuk]# 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
