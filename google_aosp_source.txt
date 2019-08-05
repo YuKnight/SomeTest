@@ -1,0 +1,17 @@
+
+google aosp 源代码：
+https://source.android.com/
+
+
+系统镜像：
+https://developers.google.com/android/images
+
+
+
+
+
+
+
+
+
+
