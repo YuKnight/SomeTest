@@ -56,7 +56,6 @@ Landroid/content/ContentResolver;->query(Landroid/net/Uri;[Ljava/lang/String;Lja
 // 在 com.baidu.location.a.f 类的 public b()V 方法，使用了函数 Landroid/database/sqlite/SQLiteDatabase;->openOrCreateDatabase(Ljava/io/File;Landroid/database/sqlite/SQLiteDatabase$CursorFactory;)Landroid/database/sqlite/SQLiteDatabase; 0x1
 // Landroid/database/sqlite/SQLiteDatabase;->openOrCreateDatabase(Ljava/io/File;Landroid/database/sqlite/SQLiteDatabase$CursorFactory;)Landroid/database/sqlite/SQLiteDatabase; 0x1
 
-
 // https://blog.csdn.net/u010889616/article/details/80962441
 // 检测调用ContextWrapper类的openOrCreateDatabase方法和Context类的openOrCreateDatabase方法地方，检查第二个参数Mode，判断是否是 MODE_WORLD_READABLE(1) 或者 MODE_WORLD_WRITEABLE(2)，如果是这两个权限，则认为该应用数据存在被第三方应用读取和篡改风险。
 import android.database.sqlite.SQLiteDatabase;
@@ -73,7 +72,6 @@ public SQLiteDatabase openOrCreateDatabase(String name, int mode, CursorFactory 
 public SQLiteDatabase openOrCreateDatabase(String name, int mode, CursorFactory factory, DatabaseErrorHandler errorHandler)
 Landroid/content/ContextWrapper;->openOrCreateDatabase(Ljava/lang/String;ILandroid/database/sqlite/SQLiteDatabase$CursorFactory;)Landroid/database/sqlite/SQLiteDatabase;
 Landroid/content/ContextWrapper;->openOrCreateDatabase(Ljava/lang/String;ILandroid/database/sqlite/SQLiteDatabase$CursorFactory;Landroid/database/DatabaseErrorHandler;)Landroid/database/sqlite/SQLiteDatabase;
-
 
 
 
@@ -189,20 +187,8 @@ Ljava/net/Proxy;-><init>(Ljava/net/Proxy$Type;Ljava/net/SocketAddress;)V
 ->verify(Ljava/lang/String;Ljavax/net/ssl/SSLSession;)Z
 
 
-
 --隐藏启动误判风险
 进行语义分析，利用对象属性值结合上下文，依据相关特征，智能识别不安全配置，发现存在隐藏启动代码的可能，表现为未发现有入口界面。
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -233,4 +219,43 @@ Lcom/tencent/mm/sdk/openapi/WXAPIFactory;->createWXAPI(Landroid/content/Context;
 支付宝支付:
 Lcom/alipay/sdk/app/AuthTask;->authV2(Ljava/lang/String;Z)Ljava/util/Map;
 Lcom/alipay/sdk/app/PayTask;->payV2(Ljava/lang/String;Z)Ljava/util/Map;
+
+
+
+--统计SDK
+友盟统计:
+/**
+* 注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调
+* 用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，
+* UMConfigure.init调用中appkey和channel参数请置为null）。
+*/
+UMConfigure.init(Context context, String appkey, String channel, int deviceType, String pushSecret);
+Lcom/umeng/commonsdk/UMConfigure;->init(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;)V
+
+
+/** 
+* 注意：如果您已经在AndroidManifest.xml中配置过appkey和channel值，可以调用此版本初始化函数。
+*/
+UMConfigure.init(Context context, int deviceType, String pushSecret);
+Lcom/umeng/commonsdk/UMConfigure;->init(Landroid/content/Context;ILjava/lang/String;)V
+
+
+
+
+
+
+--明文证书检测  SELECT * FROM `flawInfo` where flawName="明文证书检测"
+被测系统客户端安装包中发现明文的证书文件，攻击者容易非授权访问证书文件，对使用证书加密/认证的数据进行解密，容易造成敏感信息泄露。
+
+
+--证书文件检测
+被测系统客户端安装包中发现明文的证书文件，攻击者容易非授权访问证书文件，对使用证书加密/认证的数据进行解密，容易造成敏感信息泄露。
+
+
+
+
+--友盟SDK越权漏洞
+https://www.freebuf.com/articles/system/156332.html
+通过分析发现，有漏洞的组件UmengIntentService是在新版3.1.X版本中引入的。我们据此确定以下的特征值，并在360显危镜后台数据库中查询受该漏洞影响的APP：组件service中包含UmengIntentService并且在apk中包含字符串pullapp。
+
 
