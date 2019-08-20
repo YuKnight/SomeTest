@@ -1,0 +1,49 @@
+arachni usage:
+
+
+
+
+arachni 扫描后生成文件的位置：
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin>arachni_reporter E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\system\ruby\lib\ruby\gems\2.2.0\gems\arachni-1.5.1\spec\support\fixtures\report.afr --reporter=html:outfile=my_report.html.zip
+
+其中安装目录为： E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64
+
+转换后的报表文件路径为：E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin\my_report.html.zip
+
+
+http://support.arachni-scanner.com/kb/general-use/logging-in-and-maintaining-a-valid-session
+arachni 扫描需要登录的网站：
+check="success" 需要手动查找登录成功后的字符串 !!!  
+arachni http://testfire.net --plugin=autologin:url=http://testfire.net/bank/login.aspx,parameters="uid=jsmith&passw=Demo1234",check="Sign Off|MY ACCOUNT" --scope-exclude-pattern=logout
+
+arachni http://192.168.50.219 --plugin=autologin:url=http://192.168.50.219/mare/index.php/mare/login/login_user.html,parameters="username=marsamds&password=Neun@2019",check="Sign Off|MY ACCOUNT" --scope-exclude-pattern=logout
+
+arachni http://192.168.50.219 --plugin=autologin:url=http://192.168.50.219/mare/index.php/mare/login/login_user.html,parameters="username=marsamds&password=Neun@2019",check="success" --scope-exclude-pattern=logout
+
+
+
+登录后进行扫描：
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin>arachni http://192.168.50.219 --plugin=autologin:url=http://192.168.50.219/mare/index.php/mare/login/login_user.html,parameters="username=marsamds&password=Neun@2019",check="success" --scope-exclude-pattern=logout
+
+转换结果:
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin>arachni_reporter "E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin\192.168.50.219 2019-07-04 13_11_20 +0800.afr"--reporter=html:outfile=mscan_all.html.zip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

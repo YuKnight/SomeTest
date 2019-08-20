@@ -1,0 +1,116 @@
+JNI资源释放
+在c++中new的对象，如果不返回java，必须用release掉，否则内存泄露。包括NewStringUTF，NewObject
+。如果返回java不必release，java会自己回收
+
+jstring jstr = env->NewStringUTF((*p).sess_id); 
+env->DeleteLocalRef(jstr); 
+
+
+
+
+https://www.jianshu.com/p/c867e4abcb5f
+因为Native层资源是不被GC回收的，我们要手动释放。
+有哪些资源需要释放呢？
+释放之后怎么确认释放了呢？
+引用型对象需要释放，包括jstring, jclass, jobject, jbyteArray等等；从作用域的角度分为两类：Global and Local References
+
+
+jstring:
+void Java_com_example_jni_render(JNIEnv *env, jobject obj, jstring imagePath)
+{
+  const char* image = env->GetStringUTFChars(imagePath, 0);
+  env->ReleaseStringUTFChars(imagePath, image);
+}
+//或者
+jstring jstring1 = env->NewStringUTF("abc");
+env->DeleteLocalRef(jstring1);
+
+
+jbyteArray:
+void Java_com_example_jni_detect(JNIEnv *env, jobject obj, jbyteArray imgdata)
+{
+  jbyte *imgByte = env->GetByteArrayElements(imgdata, 0);
+  env->ReleaseByteArrayElements(imgdata, imgByte, 0);
+}
+
+
+jclass:
+jclass clsstring = env->FindClass("java/lang/String");
+env->DeleteLocalRef(clsstring);
+
+
+jobject:
+jclass class_hashmap = env->FindClass("java/util/HashMap");
+jmethodID hashmap_construct_method = env->GetMethodID(class_hashmap, "<init>", "()V");
+jobject obj_hashmap = env->NewObject(class_hashmap, hashmap_construct_method, "");
+//如果你要返回obj_hashmap则不需要释放
+env->DeleteLocalRef(obj_hashmap);
+env->DeleteLocalRef(class_hashmap);
+
+
+
+
+
+把局部对象分配成全局变量再释放
+static jobject callbackObj;
+void Java_com_example_start(JNIEnv *env, jobject obj, jobject callback)
+{
+    callbackObj = env->NewGlobalRef(callback);
+}
+//在释放方法里调用
+env->DeleteGlobalRef(callbackObj);
+
+
+
+查看native层内存
+使用命令行
+adb shell dumpsys meminfo packageName/pid
+
+
+
+
+
+
+
+
+
+// https://www.cnblogs.com/Free-Thinker/p/10615107.html
+1. 哪些需要手动释放？
+    不要手动释放（基本类型）： jint , jlong , jchar
+    需要手动释放（引用类型，数组家族）： jstring，jobject ，jobjectArray，jintArray ，jclass ，jmethodID
+
+2. 释放方法
+2.1 jstring & char *
+// 创建 jstring 和 char*
+jstring jstr = (*jniEnv)->CallObjectMethod(jniEnv, mPerson, getName);
+char* cstr = (char*) (*jniEnv)->GetStringUTFChars(jniEnv,jstr, 0);
+
+// 释放
+(*jniEnv)->ReleaseStringUTFChars(jniEnv, jstr, cstr);
+(*jniEnv)->DeleteLocalRef(jniEnv, jstr);
+
+
+2.2 jobject，jobjectArray，jclass ，jmethodID等引用类型
+(*jniEnv)->DeleteLocalRef(jniEnv, XXX);
+
+
+2.3 jbyteArray
+jbyteArray audioArray = jnienv->NewByteArray(frameSize);
+jnienv->DeleteLocalRef(audioArray);
+
+
+2.4 GetByteArrayElements
+jbyte* array= (*env)->GetByteArrayElements(env,jarray,&isCopy);
+(*env)->ReleaseByteArrayElements(env,jarray,array,0);
+
+
+2.5 NewGlobalRef
+jobject ref= env->NewGlobalRef(customObj);
+env->DeleteGlobalRef(customObj);
+
+
+3. 避免内存泄露
+JNI如果创建以上引用却不手动释放的话很容易就造成内存泄露，所以JNI编程创建的引用类型一定要手动释放（切身教训），检测内存泄露可以使用Jprofiler
+
+
+

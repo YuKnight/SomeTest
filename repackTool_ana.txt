@@ -1,0 +1,39 @@
+
+
+
+
+
+
+
+把 F:\AndroidRepackTool_dev\proxyFiles 目录下的 classes10.dex 跟原apk包中的 dex 打包到 abc.zip 中
+其中 classes10.dex 是自定义的 MyPathClassLoader (extends PathClassLoader)
+
+然后把 abc.zip 压缩包等分成两个文件 subFile1 跟 subFile2 
+
+
+对 subFile1 跟 subFile2 还有先前原apk包中的assets打包成的zip文件 分别使用先前生成的密钥进行加密
+生成加密后的文件 ensubFile1 ensubFile2 ensubFile3 
+
+
+把原apk包中除 AndroidManifest.xml  dex 文件  签名文件 assets目录  lib目录 外的所有文件写入新生成的 out.apk 压缩包中
+
+添加修改包名后的 classes.dex 、  修改后的 AndroidManifest.xml 文件 、  改成包名后的 libsecret.so  到 out.apk 压缩包中
+
+
+
+
+随机往 out.apk 压缩包中添加几个文件 文件内容随机产生 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

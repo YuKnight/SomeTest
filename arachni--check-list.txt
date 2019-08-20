@@ -1,0 +1,833 @@
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin
+λ arachni --check-list
+Arachni - Web Application Security Scanner Framework v1.5.1
+   Author: Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+
+           (With the support of the community and the Arachni Team.)
+
+   Website:       http://arachni-scanner.com
+   Documentation: http://arachni-scanner.com/wiki
+
+
+
+
+ [~] Available checks:
+
+ [*] code_injection:
+--------------------
+Name:           Code injection
+Description:
+Injects code snippets and assess whether or not execution was successful.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.5
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/code_injection.rb
+
+ [*] code_injection_php_input_wrapper:
+--------------------
+Name:           Code injection (php://input wrapper)
+Description:
+Injects PHP code into the HTTP request body and uses the `php://input` wrapper
+to try and load it.
+
+Severity:       High
+Elements:       form, link, cookie, header
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/code_injection_php_input_wrapper.rb
+
+ [*] code_injection_timing:
+--------------------
+Name:           Code injection (timing)
+Description:
+Injects code snippets and assess whether or not the injection was successful using
+a time delay.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.3.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/code_injection_timing.rb
+
+ [*] csrf:
+--------------------
+Name:           CSRF
+Description:
+It uses differential analysis to determine which forms affect business logic and
+checks them for lack of anti-CSRF tokens.
+
+(Works best with a valid session.)
+
+Severity:       High
+Elements:       form
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.4
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/csrf.rb
+
+ [*] file_inclusion:
+--------------------
+Name:           File Inclusion
+Description:
+Injects paths of common files (like `/etc/passwd` and `boot.ini`) and evaluates
+the existence of a file inclusion vulnerability based on the presence of relevant
+content or errors in the HTTP response body.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.7
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/file_inclusion.rb
+
+ [*] ldap_injection:
+--------------------
+Name:           LDAPInjection
+Description:
+It tries to force the web application to return LDAP error messages, in order to
+discover failures in user input validation.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.4
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/ldap_injection.rb
+
+ [*] no_sql_injection:
+--------------------
+Name:           NoSQL Injection
+Description:
+NoSQL injection check, uses known DB errors to identify vulnerabilities.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/no_sql_injection.rb
+
+ [*] no_sql_injection_differential:
+--------------------
+Name:           Blind NoSQL Injection (differential analysis)
+Description:
+It uses differential analysis to determine how different inputs affect the behavior
+of the web application and checks if the displayed behavior is consistent with
+that of a vulnerable application.
+
+Severity:       High
+Elements:       link, form, cookie
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/no_sql_injection_differential.rb
+
+ [*] os_cmd_injection:
+--------------------
+Name:           OS command injection
+Description:
+Tries to find Operating System command injections.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.6
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/os_cmd_injection.rb
+
+ [*] os_cmd_injection_timing:
+--------------------
+Name:           OS command injection (timing)
+Description:
+Tries to find operating system command injections using timing attacks.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.3.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/os_cmd_injection_timing.rb
+
+ [*] path_traversal:
+--------------------
+Name:           Path Traversal
+Description:
+It injects paths of common files ( like `/etc/passwd` and `boot.ini`) and
+evaluates the existence of a path traversal vulnerability based on the presence
+of relevant content in the HTML responses.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.4.8
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/path_traversal.rb
+
+ [*] response_splitting:
+--------------------
+Name:           Response Splitting
+Description:
+Injects arbitrary and checks if any of them end up in the response header.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/response_splitting.rb
+
+ [*] rfi:
+--------------------
+Name:           Remote File Inclusion
+Description:
+Injects a remote URL in all available inputs and checks for relevant content in
+the HTTP response body.
+
+Severity:       High
+Elements:       link, form, cookie, header, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.3.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/rfi.rb
+
+ [*] session_fixation:
+--------------------
+Name:           Session fixation
+Description:
+Checks whether or not the session cookie can be set to an arbitrary value.
+
+Severity:       High
+Elements:       form, link, link_template
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/session_fixation.rb
+
+ [*] source_code_disclosure:
+--------------------
+Name:           Source code disclosure
+Description:
+It tries to identify whether or not the web application can be forced to reveal
+source code.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.4
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/source_code_disclosure.rb
+
+ [*] sql_injection:
+--------------------
+Name:           SQL Injection
+Description:
+SQL injection check, uses known SQL DB errors to identify vulnerabilities.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/sql_injection.rb
+
+ [*] sql_injection_differential:
+--------------------
+Name:           Blind SQL Injection (differential analysis)
+Description:
+It uses differential analysis to determine how different inputs affect behavior
+of the web application and checks if the displayed behavior is consistent with
+that of a vulnerable application.
+
+Severity:       High
+Elements:       link, form, cookie
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.4.4
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/sql_injection_differential.rb
+
+ [*] sql_injection_timing:
+--------------------
+Name:           Blind SQL injection (timing attack)
+Description:
+Blind SQL Injection check using timing attacks.
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.3.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/sql_injection_timing.rb
+
+ [*] trainer:
+--------------------
+Name:           Trainer
+Description:
+Pokes and probes all inputs of a given page in order to uncover new input vectors.
+It also forces Arachni to train itself by analyzing the server responses.
+
+Elements:       form, link, cookie, header
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.5
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/trainer.rb
+
+ [*] unvalidated_redirect:
+--------------------
+Name:           Unvalidated redirect
+Description:
+Injects URLs and checks the `Location` HTTP response header field and/or browser
+URL to determine whether the attack was successful.
+
+Severity:       Medium
+Elements:       link, form, cookie, header, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.5
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/unvalidated_redirect.rb
+
+ [*] unvalidated_redirect_dom:
+--------------------
+Name:           Unvalidated DOM redirect
+Description:
+Injects URLs and checks the browser URL to determine whether the attack was successful.
+
+Severity:       High
+Elements:       link_dom, form_dom, cookie_dom, ui_form_dom
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/unvalidated_redirect_dom.rb
+
+ [*] xpath_injection:
+--------------------
+Name:           XPath Injection
+Description:
+XPath injection check
+
+Severity:       High
+Elements:       link, form, cookie, header, link_template, json, xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.6
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/xpath_injection.rb
+
+ [*] xss:
+--------------------
+Name:           XSS
+Description:
+Injects an HTML element into page inputs and then parses the HTML markup of
+tainted responses to look for proof of vulnerability.
+
+Severity:       High
+Elements:       form, link, cookie, header, link_template
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.4.9
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/xss.rb
+
+ [*] xss_dom:
+--------------------
+Name:           DOM XSS
+Description:
+Injects an HTML element into page DOM inputs and then parses the HTML markup of
+tainted responses to look for proof of vulnerability.
+
+Severity:       High
+Elements:       link_dom, form_dom, cookie_dom, link_template_dom, ui_input_dom, ui_form_dom
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.4
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/xss_dom.rb
+
+ [*] xss_dom_script_context:
+--------------------
+Name:           DOM XSS in script context
+Description:
+Injects JS taint code and checks to see if it gets executed as proof of vulnerability.
+
+Severity:       High
+Elements:       link_dom, form_dom, cookie_dom, link_template_dom, ui_input_dom, ui_form_dom
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/xss_dom_script_context.rb
+
+ [*] xss_event:
+--------------------
+Name:           XSS in HTML element event attribute
+Description:
+Cross-Site Scripting in event tag of HTML element.
+
+Severity:       High
+Elements:       form, link, cookie, header
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.9
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/xss_event.rb
+
+ [*] xss_path:
+--------------------
+Name:           XSS in path
+Description:
+Cross-Site Scripting check for path injection
+
+Severity:       High
+Elements:       path
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.11
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/xss_path.rb
+
+ [*] xss_script_context:
+--------------------
+Name:           XSS in script context
+Description:
+Injects JS taint code and check to see if it gets executed as proof of vulnerability.
+
+Severity:       High
+Elements:       form, link, cookie, header, link_template
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.5
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/xss_script_context.rb
+
+ [*] xss_tag:
+--------------------
+Name:           XSS in HTML tag
+Description:
+Cross-Site Scripting in HTML tag.
+
+Severity:       High
+Elements:       form, link, cookie, header
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.11
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/xss_tag.rb
+
+ [*] xxe:
+--------------------
+Name:           XML External Entity
+Description:
+Injects a custom External Entity into XML documents prior to submitting them and
+determines the existence of a vulnerability by checking whether that entity was
+processed based on the resulting HTTP response.
+
+Severity:       High
+Elements:       xml
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/active/xxe.rb
+
+ [*] allowed_methods:
+--------------------
+Name:           Allowed methods
+Description:
+Checks for supported HTTP methods.
+
+Severity:       Informational
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/allowed_methods.rb
+
+ [*] backdoors:
+--------------------
+Name:           Backdoors
+Description:
+Tries to find common backdoors on the server.
+
+Severity:       High
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.6
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/backdoors.rb
+
+ [*] backup_directories:
+--------------------
+Name:           Backup directories
+Description:
+Tries to find backed-up directories.
+
+Severity:       Medium
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/backup_directories.rb
+
+ [*] backup_files:
+--------------------
+Name:           Backup files
+Description:
+Tries to identify backup files.
+
+Severity:       Medium
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.3.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/backup_files.rb
+
+ [*] common_admin_interfaces:
+--------------------
+Name:           Common administration interfaces
+Description:
+Tries to find common admin interfaces on the server.
+
+Severity:       Low
+Elements:       server
+Author:         Brendan Coles <bcoles@gmail.com>, Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.1
+References:
+ [~] Apache.org         http://httpd.apache.org/docs/2.0/mod/mod_access.html
+ [~] WASC               http://projects.webappsec.org/w/page/13246953/Predictable%20Resource%20Location
+Targets:
+ [~] Generic
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/common_admin_interfaces.rb
+
+ [*] common_directories:
+--------------------
+Name:           Common directories
+Description:
+Tries to find common directories on the server.
+
+Severity:       Medium
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/common_directories.rb
+
+ [*] common_files:
+--------------------
+Name:           Common files
+Description:
+Tries to find common sensitive files on the server.
+
+Severity:       Low
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.4
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/common_files.rb
+
+ [*] directory_listing:
+--------------------
+Name:           Directory listing
+Description:
+Tries to force directory listings.
+
+Severity:       Low
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.7
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/directory_listing.rb
+
+ [*] captcha:
+--------------------
+Name:           CAPTCHA
+Description:
+Greps pages for forms with CAPTCHAs.
+
+Severity:       Informational
+Elements:       form
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/captcha.rb
+
+ [*] cookie_set_for_parent_domain:
+--------------------
+Name:           Cookie set for parent domain
+Description:
+Logs cookies that are accessible by all subdomains.
+
+Severity:       Informational
+Elements:       cookie
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/cookie_set_for_parent_domain.rb
+
+ [*] credit_card:
+--------------------
+Name:           Credit card number disclosure
+Description:
+Scans pages for credit card numbers.
+
+Severity:       Medium
+Elements:       body
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.4
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/credit_card.rb
+
+ [*] cvs_svn_users:
+--------------------
+Name:           CVS/SVN users
+Description:
+Scans every page for CVS/SVN users.
+
+Severity:       Low
+Elements:       body
+Author:         Tasos Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.3.1
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/cvs_svn_users.rb
+
+ [*] emails:
+--------------------
+Name:           E-mail address
+Description:
+Greps pages for disclosed e-mail addresses.
+
+Severity:       Informational
+Elements:       body
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/emails.rb
+
+ [*] form_upload:
+--------------------
+Name:           Form-based File Upload
+Description:
+Logs upload forms which require manual testing.
+
+Severity:       Informational
+Elements:       form
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/form_upload.rb
+
+ [*] hsts:
+--------------------
+Name:           HTTP Strict Transport Security
+Description:
+Checks HTTPS pages for missing `Strict-Transport-Security` headers.
+
+Severity:       Medium
+Elements:       server
+Author:         Tasos Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/hsts.rb
+
+ [*] html_objects:
+--------------------
+Name:           HTML objects
+Description:
+Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+Severity:       Informational
+Elements:       body
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.4
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/html_objects.rb
+
+ [*] http_only_cookies:
+--------------------
+Name:           HttpOnly cookies
+Description:
+Logs cookies that are accessible via JavaScript.
+
+Severity:       Informational
+Elements:       cookie
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.5
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/http_only_cookies.rb
+
+ [*] insecure_cookies:
+--------------------
+Name:           Insecure cookies
+Description:
+Logs cookies that are served over an encrypted channel but without having the
+`secure` flag set.
+
+Severity:       Informational
+Elements:       cookie
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.5
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/insecure_cookies.rb
+
+ [*] insecure_cors_policy:
+--------------------
+Name:           Insecure CORS policy
+Description:
+Checks the host for a wildcard (`*`) `Access-Control-Allow-Origin` header.
+
+Severity:       Low
+Elements:       server
+Author:         Tasos Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.1
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/insecure_cors_policy.rb
+
+ [*] mixed_resource:
+--------------------
+Name:           Mixed Resource
+Description:
+Looks for resources served over HTTP when the HTML code is server over HTTPS.
+
+Severity:       Medium
+Elements:       body
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.5
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/mixed_resource.rb
+
+ [*] password_autocomplete:
+--------------------
+Name:           Password field with auto-complete
+Description:
+Greps pages for forms which have password fields
+                without explicitly disabling auto-complete.
+
+Severity:       Low
+Elements:       form
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.3.1
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/password_autocomplete.rb
+
+ [*] private_ip:
+--------------------
+Name:           Private IP address finder
+Description:
+Scans pages for private IP addresses.
+
+Severity:       Low
+Elements:       body, header
+Author:         Tasos Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/private_ip.rb
+
+ [*] ssn:
+--------------------
+Name:           SSN
+Description:
+Greps pages for disclosed US Social Security Numbers.
+
+Severity:       High
+Elements:       body
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>, haliphax
+Version:        0.1.4
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/ssn.rb
+
+ [*] unencrypted_password_forms:
+--------------------
+Name:           Unencrypted password forms
+Description:
+Looks for password inputs that don't submit data
+                over an encrypted channel (HTTPS).
+
+Severity:       Medium
+Elements:       form
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/unencrypted_password_forms.rb
+
+ [*] x_frame_options:
+--------------------
+Name:           Missing X-Frame-Options header
+Description:
+Checks the host for a missing `X-Frame-Options` header.
+
+Severity:       Low
+Elements:       server
+Author:         Tasos Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.2
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/grep/x_frame_options.rb
+
+ [*] htaccess_limit:
+--------------------
+Name:           .htaccess LIMIT misconfiguration
+Description:
+Checks for misconfiguration in LIMIT directives that blocks
+                GET requests but allows POST.
+
+Severity:       High
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.7
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/htaccess_limit.rb
+
+ [*] http_put:
+--------------------
+Name:           HTTP PUT
+Description:
+Checks if uploading files is possible using the HTTP PUT method.
+
+Severity:       High
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/http_put.rb
+
+ [*] insecure_client_access_policy:
+--------------------
+Name:           Insecure client-access policy
+Description:
+Checks `clientaccesspolicy.xml` files for wildcard domain policies.
+
+Severity:       Low
+Elements:       server
+Author:         Tasos Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/insecure_client_access_policy.rb
+
+ [*] insecure_cross_domain_policy_access:
+--------------------
+Name:           Insecure cross-domain policy (allow-access-from)
+Description:
+Checks `crossdomain.xml` files for `allow-access-from` wildcard policies.
+
+Severity:       Low
+Elements:       server
+Author:         Tasos Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/insecure_cross_domain_policy_access.rb
+
+ [*] insecure_cross_domain_policy_headers:
+--------------------
+Name:           Insecure cross-domain policy (allow-http-request-headers-from)
+Description:
+Checks `crossdomain.xml` files for wildcard `allow-http-request-headers-from` policies.
+
+Severity:       Low
+Elements:       server
+Author:         Tasos Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/insecure_cross_domain_policy_headers.rb
+
+ [*] interesting_responses:
+--------------------
+Name:           Interesting responses
+Description:
+Logs all non 200 (OK) server responses.
+
+Severity:       Informational
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.2.1
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/interesting_responses.rb
+
+ [*] localstart_asp:
+--------------------
+Name:           localstart.asp
+Description:
+Checks for localstart.asp.
+
+Severity:       Low
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.3
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/localstart_asp.rb
+
+ [*] origin_spoof_access_restriction_bypass:
+--------------------
+Name:           Origin Spoof Access Restriction Bypass
+Description:
+Retries denied requests with a spoofed origin header
+                to trick the web application into thinking that the request originated
+                from localhost and checks whether the restrictions was bypassed.
+
+Severity:       High
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/origin_spoof_access_restriction_bypass.rb
+
+ [*] webdav:
+--------------------
+Name:           WebDAV
+Description:
+Checks for WebDAV enabled directories.
+
+Severity:       Informational
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.5
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/webdav.rb
+
+ [*] xst:
+--------------------
+Name:           XST
+Description:
+Sends an HTTP TRACE request and checks if it succeeded.
+
+Severity:       Medium
+Elements:       server
+Author:         Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+Version:        0.1.8
+Path:   E:/downs_0/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/checks/passive/xst.rb
+
+
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin
+λ
