@@ -1,0 +1,12 @@
+
+
+
+jarsigner -digestalg SHA1 -sigalg MD5withRSA -keystore  F:\test_cert\output\debug.keystore -storepass android -signedjar F:\test_cert\output\out_s.apk F:\test_cert\output\out.apk androiddebugkey
+
+
+
+
+eclispe中进行android工程测试会使用目录 C:\Users\<用户名>.android\debug.keystore 的keystore来签名app. 
+想要具体了解这个debug.keystore的信息，可以通过以下命令来查看。 
+keytool -list -v -keystore xxxx.keystore -storepass 密码 
+这里的xxxx.keystore替换为 debug.keystore ，默认的密码是android
