@@ -1,0 +1,223 @@
+
+Unbuntu 源码编译 
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
+
+[编译环境](https://source.android.com/source/requirements)
+1.jdk 版本 根据 Unbuntu 选择相应JDK版本
+2.相应驱动程序(https://developers.google.com/android/drivers)
+[Nexus 4 binaries for Android 5.1.1 (LMY48M)](https://developers.google.com/android/drivers#makolmy48m)
+3.安装所需的程序包 (Ubuntu 14.04) 
+sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip
+4.配置 USB 使用权限 (https://developer.android.com/studio/run/device.html#setting-up)
+[USB 供应商 ID](https://developer.android.com/studio/run/device.html#VendorIds)
+5.优化编译环境（可选）
+设置 ccache  (https://source.android.com/source/initializing.html)
+
+
+[同步代码](https://source.android.com/source/downloading)
+
+
+
+[源代码标记和细分版本](https://source.android.com/source/build-numbers.html#source-code-tags-and-builds)
+
+LMY48M	android-5.1.1_r14	Lollipop	Nexus 4、Nexus 5、Nexus 6、Nexus 7 (flo)、Nexus 9 (volantis/volantisg)、Nexus 10
+
+// 选择分支
+// repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-9.0.0_r3
+repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-5.1.1_r14
+
+
+mkdir ~/bin
+PATH=~/bin:$PATH
+// 使用清华提供的镜像 (https://www.jianshu.com/p/f514a9312656)
+curl https://mirrors.tuna.tsinghua.edu.cn/git/git-repo -o repo
+chmod +x repo
+vim ~/.bashrc
+// 添加环境变量
+export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/'
+// 保存退出后，更新变量
+source ~/.bashrc
+// 选择分支
+repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-9.0.0_r3
+// 同步代码
+repo sync
+
+
+清理
+为了确保新安装的二进制文件在解压后会被适当考虑在内，请使用以下命令删除所有以前编译操作的已有输出：
+make clobber
+
+
+mkdir ~/bin
+PATH=~/bin:$PATH
+curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+chmod a+x ~/bin/repo
+repo init -u https://android.googlesource.com/platform/manifest
+repo init -u https://android.googlesource.com/platform/manifest -b android-4.0.1_r1
+
+参考 Google 教程 https://source.android.com/setup/build/downloading， 
+将 https://android.googlesource.com/ 全部使用 https://aosp.tuna.tsinghua.edu.cn/ 代替即可
+repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+Ubuntu14.04:
+sudo apt-get install openjdk-7-jdk 
+sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip
+
+-- 原始 
+mkdir ~/bin
+PATH=~/bin:$PATH
+curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+chmod a+x ~/bin/repo
+repo init -u https://android.googlesource.com/platform/manifest
+repo init -u https://android.googlesource.com/platform/manifest -b android-5.1.1_r14
+repo sync
+
+-- 修改 (https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/)
+mkdir ~/bin
+PATH=~/bin:$PATH
+// 清华 Git Repo 镜像  (https://mirrors.tuna.tsinghua.edu.cn/help/git-repo/)
+curl https://mirrors.tuna.tsinghua.edu.cn/git/git-repo -o repo
+chmod +x repo
+// 修改 ~/.bashrc 添加环境变量 
+vim ~/.bashrc
+// 添加环境变量
+export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/'
+// 保存退出后，更新变量
+source ~/.bashrc
+
+repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest
+repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-5.1.1_r14
+repo sync
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+编译环境:(https://www.jianshu.com/p/f514a9312656)
+1.安装 jdk7
+sudo apt-get update
+sudo apt-get install openjdk-7-jdk  
+
+2.更新默认的 Java 版本 - 可选
+sudo update-alternatives --config java
+sudo update-alternatives --config javac
+
+3.使用 ubuntu 14+，需要安装以下依赖包：
+sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip
+(Ubuntu14.04)
+sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip
+4.修改输出目录
+
+
+
+----------------------------------------------------------------------------------------- 自己操作
+真机编译需要相应驱动 
+1.下载相应驱动
+[Driver Binaries for Nexus and Pixel Devices](https://developers.google.com/android/drivers)
+这里选择 Nexus 4 binaries for Android 5.1.1 (LMY48M) 下载好这三个文件 
+2.把下载的3个驱动文件放入aosp源码目录中 
+3.分别解压这三个驱动文件 赋予执行权限并分别执行这三个脚本文件 (按空格可以翻页)
+成功之后会多出一个vendor目录。(make clobber 清理下编译后文件的目录)
+// tar zxvf broadcom-mako-lmy48m-74c82789.tgz (释放出 extract-broadcom-mako.sh )
+其中下载的源码目录为 /home/yuk/aosp5.1.1
+yuk@ubuntu:~/aosp5.1.1$ pwd
+/home/yuk/aosp5.1.1
+yuk@ubuntu:~/aosp5.1.1$ tar zxvf broadcom-mako-lmy48m-74c82789.tgz (释放出 extract-broadcom-mako.sh )
+extract-broadcom-mako.sh
+yuk@ubuntu:~/aosp5.1.1$ tar zxvf lge-mako-lmy48m-d1f5b7f9.tgz 
+extract-lge-mako.sh
+yuk@ubuntu:~/aosp5.1.1$ tar zxvf qcom-mako-lmy48m-d580eeb1.tgz 
+extract-qcom-mako.sh
+yuk@ubuntu:~/aosp5.1.1$ chmod a+x *.sh
+yuk@ubuntu:~/aosp5.1.1$ ls -al|grep sh
+-rwxr-x--x   1 yuk yuk    21559 Aug 31  2015 extract-broadcom-mako.sh
+-rwxr-x--x   1 yuk yuk   220185 Aug 31  2015 extract-lge-mako.sh
+-rwxr-x--x   1 yuk yuk 21941020 Aug 31  2015 extract-qcom-mako.sh
+分别执行这三个脚本文件 
+yuk@ubuntu:~/aosp5.1.1$ ./extract-broadcom-mako.sh
+yuk@ubuntu:~/aosp5.1.1$ ./extract-lge-mako.sh 
+yuk@ubuntu:~/aosp5.1.1$ ./extract-qcom-mako.sh 
+
+执行完后会多出一个 vendor 目录 里面包含 broadcom lge qcom 三个目录
+
+[优化编译环境（可选）](https://source.android.com/source/initializing.html)
+设置 ccache
+1.
+yuk@ubuntu:~/aosp5.1.1$ export USE_CCACHE=1
+yuk@ubuntu:~/aosp5.1.1$ export CCACHE_DIR=/home/yuk/aosp5.1.1/.ccache
+yuk@ubuntu:~/aosp5.1.1$ prebuilts/misc/linux-x86/ccache/ccache -M 50G
+Set cache size limit to 50.0 Gbytes
+yuk@ubuntu:~/aosp5.1.1$ 
+2.请将以下内容添加到 .bashrc（或等同文件）中：
+export USE_CCACHE=1
+yuk@ubuntu:~/aosp5.1.1$ vim ~/.bashrc 
+在最后面添加: export USE_CCACHE=1
+
+暂时不自定义输出目录
+[使用单独的输出目录](https://source.android.com/source/initializing.html) 
+默认情况下，每次编译的输出都会存储在相应源代码树的 out/ 子目录下。
+要进行这项设置，请导出 OUT_DIR_COMMON_BASE 变量，使其指向将存储输出目录的位置。
+export OUT_DIR_COMMON_BASE=<path-to-your-out-directory>
+
+
+进行编译:
+yuk@ubuntu:~/aosp5.1.1$ source ~/.bashrc 
+yuk@ubuntu:~/aosp5.1.1$ source build/envsetup.sh
+yuk@ubuntu:~/aosp5.1.1$ lunch
+选择 8 (aosp_mako-userdebug)
+yuk@ubuntu:~/aosp5.1.1$ make -j4
+----------------------------------------------------------------------------------------- 自己操作
+
+
+[](https://www.tuicool.com/articles/uUR7viQ)
+编译AOSP预备工作
+设置编译缓存（可选操作）可加速后续第二次编译，如需要，可在源码目录执行以下命令
+$ export USE_CCACHE=1
+$ export CCACHE_DIR=~/AOSP_NBD91Z/.ccache # 目录自定义
+$ prebuilts/misc/linux-x86/ccache/ccache -M 50G # 官方推荐50-100G
+更新环境变量
+$ vim ~/.bashrc
+# 添加以下这行
+export USE_CCACHE=1
+$ source ~/.bashrc
+
+
+
+[AOSP 安卓源码7.1编译-真机运行](https://www.cnblogs.com/zhen-android/p/7764056.html)
+
+
+
+// 自动重复同步代码脚本  https://blog.csdn.net/m251887584/article/details/25398957
+//********************************************************************************************
+#!/bin/bash
+ echo "================start repo sync==============="
+ 
+ repo sync -f -j10
+ 
+ while [ $? == 1 ]; do
+ echo "================sync failed, re-sync again============="
+ sleep 3
+ repo sync -f -j10
+ done
+//********************************************************************************************
+
+
+[刷写设备](https://source.android.com/setup/build/running)
+
+
+
+
+
+
+刷入谷歌服务 root 等 https://www.2cto.com/kf/201609/551334.html 
+[twrp recovery](https://twrp.me/Devices/)
+[SuperSu的下载地址如下](https://download.chainfire.eu/1003/SuperSU/SR1-SuperSU-v2.78-SR1-20160915123031.zip)
+
+
+
+
+
+[编译内核](https://source.android.com/setup/build/building-kernels)
+[编译内核（已弃用）](https://source.android.com/setup/build/building-kernels-deprecated)
+

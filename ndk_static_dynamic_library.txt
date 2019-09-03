@@ -1,0 +1,98 @@
+
+
+android开发 NDK 编译和使用静态库、动态库
+https://blog.csdn.net/heng615975867/article/details/11904737
+
+
+1.在eclipse工程目录下建立一个jni的文件夹。
+2.在jni文件夹中建立Android.mk和Application.mk文件。
+Android.mk文件：
+Android提供的一种makefile文件，用来指定诸如编译生成so库名、引用的头文件目录、需要编译的.c/.cpp文件和.a静态库文件等。详见附件中的Android.mk。
+
+ 
+
+Application.mk文件：
+定义了项目的一些细节，比如APP_ABI := x86(编译X86平台库)、APP_PLATFORM := android-9(使用android-9以上的平台库)。
+
+用cd命令移至jni目录，运行/mnt/500G/public/NDK/android-ndk-r7b/ndk-build命令，这时命令行中可能会出现编译错误，比如头文件找不到，函数找不到等等，细心找找就能改掉。
+编译成功后，在工程目录下libs/x86中就会生成你想要的.so库。
+NDK 编译和使用静态库、动态库
+
+情况一：编译静态库
+
+情况二：编译动态库
+
+情况三：编译动态库+静态库
+
+情况四：已有第三方静态库（动态库），编译静态库（动态库）
+
+
+
+默认所有代码和文件在$project/jni下，否则特殊说明。
+
+情况一：编译静态库
+
+文件Android.mk:
+
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE    := hello-jni
+LOCAL_SRC_FILES := hello-jni.c
+include $(BUILD_STATIC_LIBRARY)
+
+
+
+文件Application.mk:
+
+APP_MODULES :=hello-jni
+
+
+
+情况二：编译动态库
+
+文件Android.mk:
+
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE    := hello-jni
+LOCAL_SRC_FILES := hello-jni.c
+include $(BUILD_SHARED_LIBRARY)
+
+情况三：编译动态库+静态库
+
+文件Android.mk:
+
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := mylib_static
+LOCAL_SRC_FILES := src.c
+include $(BUILD_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := mylib_shared
+LOCAL_SRC_FILES := src2.c
+
+LOCAL_STATIC_LIBRARIES := mylib_static
+
+include $(BUILD_SHARED_LIBRARY)
+
+情况四：已有第三方静态库(动态库)，编译静态库(动态库)
+
+文件Android.mk:
+
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := thirdlib1      # name it whatever
+LOCAL_SRC_FILES := $(TARGET_ARCH_ABI)/libthird1.a     # or $(so_path)/libthird1.so
+#LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include
+include $(PREBUILT_STATIC_LIBRARY)    #or PREBUILT_SHARED_LIBRARY
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := mylib_use_thirdlib
+LOCAL_SRC_FILES := src.c
+
+LOCAL_STATIC_LIBRARIES := thirdlib1       #or LOCAL_SHARED_LIBRARY 
+
+include $(BUILD_SHARED_LIBRARY)   #如果编译静态库，需要Application.mk
