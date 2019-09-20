@@ -1,0 +1,106 @@
+
+Janus漏洞:
+Verified using v1 scheme (JAR signing): true
+Verified using v2 scheme (APK Signature Scheme v2): false
+
+
+>>> from androguard.misc import AnalyzeAPK
+>>> a,d,dx = AnalyzeAPK("E:\\apktest\\qq_v5.3.1.apk")
+>>> a.is_signed()
+True
+>>> a.is_signed_v1()
+True
+>>> a.is_signed_v2()
+False
+>>> a.is_signed_v3()
+False
+
+检测V2签名：
+a,d,dx = AnalyzeAPK("E:\\apktest\\110_1aa165a102c22802e7ec0579bd206ba9.apk")
+>>> a.is_signed_v2()
+True
+>>> a.is_signed_v3()
+False
+>>> print(type(a.get_public_keys_v2()[0]))
+<class 'asn1crypto.keys.PublicKeyInfo'>
+>>> pubkey = a.get_public_keys_v2()[0]
+>>> print(pubkey.algorithm)
+rsa
+>>> print(pubkey.fingerprint)
+b'!E\x05\xc2:\xdc\xf6\xfb@\xbcj\xc0\xba\xa1=\xc5\xa6o\x9c\xf2\xb6c\x7f\xc4\xadt\x83\x96\xfe~\xf8\x91'
+>>> print(pubkey.bit_size)
+2048
+
+
+
+单元测试配置风险
+<instrumentation android:name="android.test.InstrumentationTestRunner" android:targetPackage="com.frystock.mm"/> 
+
+
+
+残留帐号密码检测 SECRET/SIGNATURE/pubkey/key/PRIVATEKEY/PUBLICKEY/password/token
+CONSUMER_SECRET = "uynAeXiWTisflWX99KU1D2q5"
+MYSPACE_SECRET = "20ab52223e684594a8050a8bfd4b06693ba9c9183ee24e1987be87746b1b03f8"
+
+残留手机号检测
+./res/values/strings.xml:806:18608160800
+./smali/com/baidu/mapapi/model/a.smali:318:18345352118
+
+残留Email检测
+ ./res/values/strings.xml:807:1211110800@QQ.com
+./smali/org/opensocial/auth/SecurityTokenSchemeTest.smali:101:http://example.org/test
+
+
+通信套接字安全
+
+
+
+模拟器环境防护检测
+find_fields
+Build.FINGERPRINT
+Build.MANUFACTURER
+
+
+
+root环境防护检测
+
+
+
+
+纯java代码风险 ---> 检测是否存在 so 文件 
+
+
+
+
+ContentProvider访问路径配置安全
+<provider android:authorities="com.laifenqi.android.app.AUTH_XGPUSH" android:exported="true" android:name="com.tencent.android.tpush.XGPushProvider"/>
+应在provider节点中通过android:pathPrefix、android:path或android:pathPatten进行最小化访问路径申明和最小权限申明
+
+
+
+
+明文证书检测 cer后缀的文件检测 ??? 
+./assets/Igetget.cer
+
+
+
+
+
+
+数据备份配置风险
+在 AndroidManifest.xml 文件中 [android:allowBackup=true]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

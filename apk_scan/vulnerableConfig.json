@@ -1,0 +1,173 @@
+{
+	"vulnerableCheck": [
+		{
+			"vulnerableType": "0x80000002",
+			"className": "Ljava/io/PrintStream;",
+			"methodName": "println",
+			"descriptor": "(Ljava/lang/String;)V"
+		},
+		{
+			"vulnerableType": "0x80000001",
+			"className": "Landroid/util/Log;",
+			"methodName": "",
+			"descriptor": ""
+		},
+		{
+			"vulnerableType": "0x80000021",
+			"className": "Ljava/net/SocketAddress;",
+			"methodName": "",
+			"descriptor": ""
+		},
+		{
+			"vulnerableType": "0x80000003",
+			"className": "Landroid/os/Environment;",
+			"methodName": "getExternalStorageDirectory",
+			"descriptor": "()Ljava/io/File;"
+		},
+		{
+			"vulnerableType": "0x80000005",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getCellLocation",
+			"descriptor": "()Landroid/telephony/CellLocation;"
+		},
+		{
+			"vulnerableType": "0x80000005",
+			"className": "Landroid/telephony/gsm/GsmCellLocation;",
+			"methodName": "getLac",
+			"descriptor": "()I"
+		},
+		{
+			"vulnerableType": "0x80000005",
+			"className": "Landroid/telephony/NeighboringCellInfo;",
+			"methodName": "getCid",
+			"descriptor": "()I"
+		},
+		
+		{
+			"vulnerableType": "0x40000004",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getSubscriberId",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x40000004",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "listen",
+			"descriptor": "(Landroid/telephony/PhoneStateListener; I)V"
+		},
+		{
+			"vulnerableType": "0x40000004",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getNetworkOperator",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x40000004",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getSimOperator",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x40000004",
+			"className": "Landroid/app/ActivityManager;",
+			"methodName": "getRunningAppProcesses",
+			"descriptor": "()Ljava/util/List;"
+		},		
+		{
+			"vulnerableType": "0x40000004",
+			"className": "Landroid/content/pm/PackageManager;",
+			"methodName": "getInstalledPackages",
+			"descriptor": "(I)Ljava/util/List;"
+		},
+		
+		{
+			"vulnerableType": "0x80000007",
+			"className": "",
+			"methodName": "registerReceiver",
+			"descriptor": "(Landroid/content/BroadcastReceiver; Landroid/content/IntentFilter;)"
+		},
+
+		{
+			"vulnerableType": "0x80000012",
+			"className": "Landroid/content/Intent;",
+			"methodName": "setAction",
+			"descriptor": "(Ljava/lang/String;)Landroid/content/Intent;"
+		},
+		
+		{
+			"vulnerableType": "0x80000013",
+			"className": "Landroid/app/PendingIntent;",
+			"methodName": "getService",
+			"descriptor": "(Landroid/content/Context;ILandroid/content/Intent;I)Landroid/app/PendingIntent;"
+		},
+
+
+		{
+			"vulnerableType": "0x8000000E",
+			"className": "Ljavax/crypto/spec/IvParameterSpec;",
+			"methodName": "<init>",
+			"descriptor": "([B)V"
+		},
+		
+		{
+			"vulnerableType": "0x40000001",
+			"className": "Ljava/lang/reflect/Method;",
+			"methodName": "invoke",
+			"descriptor": "(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;"
+		},				
+		
+		{
+			"vulnerableType": "0x40000002",
+			"className": "Landroid/net/Uri;",
+			"methodName": "parse",
+			"descriptor": "(Ljava/lang/String;)Landroid/net/Uri;"
+		},
+		{
+			"vulnerableType": "0x80000006",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getDeviceId",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x4000000F",
+			"className": "Ljava/security/SecureRandom;",
+			"methodName": "setSeed",
+			"descriptor": "([B)V"
+		},
+		
+		{
+			"vulnerableType": "0x8000000D",
+			"className": "Ljava/util/zip/ZipEntry;",
+			"methodName": "getName",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x4000000A",
+			"className": "Ldalvik/system/PathClassLoader;",
+			"methodName": "<init>",
+			"descriptor": "(Ljava/lang/String;Ljava/lang/ClassLoader;)V"
+		},
+		{
+			"vulnerableType": "0x4000000A",
+			"className": "Ldalvik/system/DexClassLoader;",
+			"methodName": "<init>",
+			"descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/ClassLoader;)V"
+		}
+	],
+	"vulnerableWithCodeCheck": [
+		{
+			"vulnerableType": "0x80000008",
+			"className": "Ljavax/crypto/Cipher;",
+			"methodName": "getInstance",
+			"descriptor": "(Ljava/lang/String;)Ljavax/crypto/Cipher;",
+			"registersIndex" : "1"
+		},
+		{
+			"vulnerableType": "0x40000005",
+			"className": "Ljava/security/MessageDigest;",
+			"methodName": "getInstance",
+			"descriptor": "(Ljava/lang/String;)Ljava/security/MessageDigest;",
+			"registersIndex" : "1"
+		}
+	]
+}

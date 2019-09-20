@@ -1,0 +1,210 @@
+{
+	"vulnerableCheck": [
+		{
+			"vulnerableType": "0x80000101",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getDeviceId",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x80000102",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getImei",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x80000103",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getImei",
+			"descriptor": "(I)Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x80000104",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getMacAddress",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x80000105",
+			"className": "Landroid/bluetooth/BluetoothAdapter;",
+			"methodName": "getAddress",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		
+		
+		
+		
+		{
+			"vulnerableType": "0x80000201",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getSubscriberId",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x80000202",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getSimSerialNumber",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x80000203",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getSimCountryIso",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x80000204",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getSimOperator",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		{
+			"vulnerableType": "0x80000205",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getSimOperatorName",
+			"descriptor": "()Ljava/lang/String;"
+		},		
+		
+		
+		
+		
+		
+		{
+			"vulnerableType": "0x80000301",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getCallState",
+			"descriptor": "()I"
+		},
+		
+		
+		
+		
+		{
+			"vulnerableType": "0x80000401",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getCellLocation",
+			"descriptor": "()Landroid/telephony/CellLocation;"
+		},
+		{
+			"vulnerableType": "0x80000402",
+			"className": "Landroid/telephony/gsm/GsmCellLocation;",
+			"methodName": "getLac",
+			"descriptor": "()I"
+		},
+		{
+			"vulnerableType": "0x80000403",
+			"className": "Landroid/telephony/NeighboringCellInfo;",
+			"methodName": "getCid",
+			"descriptor": "()I"
+		},
+		{
+			"vulnerableType": "0x80000404",
+			"className": "Landroid/location/LocationManager;",
+			"methodName": "getLastKnownLocation",
+			"descriptor": "(Ljava/lang/String;)Landroid/location/Location;"
+		},
+		{
+			"vulnerableType": "0x80000405",
+			"className": "Landroid/location/LocationManager;",
+			"methodName": "requestLocationUpdates",
+			"descriptor": "(Ljava/lang/String; J F Landroid/location/LocationListener;)V"
+		},
+
+
+
+
+
+
+
+		{
+			"vulnerableType": "0x80000501",
+			"className": "Landroid/telephony/TelephonyManager;",
+			"methodName": "getLine1Number",
+			"descriptor": "()Ljava/lang/String;"
+		},
+		
+		
+		
+		{
+			"vulnerableType": "0x80000701",
+			"className": "Landroid/os/Environment;",
+			"methodName": "getExternalStorageDirectory",
+			"descriptor": "()Ljava/io/File;"
+		},
+		
+		
+		
+		
+		{
+			"vulnerableType": "0x80000A01",
+			"className": "Landroid/telephony/SmsManager;",
+			"methodName": "sendTextMessage",
+			"descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/app/PendingIntent;Landroid/app/PendingIntent;)V"
+		},
+		{
+			"vulnerableType": "0x80000A02",
+			"className": "Landroid/telephony/SmsManager;",
+			"methodName": "sendMultipartTextMessage",
+			"descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/ArrayList;Ljava/util/ArrayList;Ljava/util/ArrayList;)V"
+		},
+		{
+			"vulnerableType": "0x80000A03",
+			"className": "Landroid/telephony/SmsManager;",
+			"methodName": "sendDataMessage",
+			"descriptor": "(Ljava/lang/String;Ljava/lang/String;S[BLandroid/app/PendingIntent;Landroid/app/PendingIntent;)V"
+		}
+		
+		
+		
+	],
+	"vulnerableStrings": [
+		{
+			"vulnerableType": "0x80000303",
+			"regStr": "android.intent.action.NEW_OUTGOING_CALL"
+		},
+		{
+			"vulnerableType": "0x80000304",
+			"regStr": "android.intent.action.PHONE_STATE"
+		},
+		
+		
+		{
+			"vulnerableType": "0x80000801",
+			"regStr": "content://com.android.contacts/raw_contacts"
+		},
+		{
+			"vulnerableType": "0x80000802",
+			"regStr": "content://com.android.contacts/data"
+		},
+		
+		
+		{
+			"vulnerableType": "0x80000B01",
+			"regStr": "content://sms/"
+		},
+		{
+			"vulnerableType": "0x80000B02",
+			"regStr": "content://sms/inbox"
+		},
+		{
+			"vulnerableType": "0x80000B03",
+			"regStr": "content://sms/sent"
+		},
+		{
+			"vulnerableType": "0x80000B04",
+			"regStr": "content://sms/draft"
+		},
+		{
+			"vulnerableType": "0x80000B05",
+			"regStr": "content://sms/outbox"
+		},
+		{
+			"vulnerableType": "0x80000B06",
+			"regStr": "content://sms/failed"
+		},
+		{
+			"vulnerableType": "0x80000B07",
+			"regStr": "content://sms/queued"
+		}
+	]
+}

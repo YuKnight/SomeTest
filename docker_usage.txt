@@ -1,0 +1,687 @@
+
+win7 安装docker需要使用 Docker Toolbox  https://docs.docker.com/toolbox/toolbox_install_windows/
+
+列出本地主机上的镜像
+docker images
+
+查看运用的docker镜像 
+docker ps
+
+也可以通过 docker ps -a 命令查看已经在运行的容器，然后使用容器 ID 进入容器。
+
+启动已被停止的容器myrunoob
+docker start myrunoob
+
+停止运行中的容器myrunoob
+docker stop myrunoob
+
+重启容器myrunoob
+docker restart myrunoob
+
+docker images : 列出本地镜像。
+
+
+搜索相应的镜像:(选择stars最多的那个)
+docker search bwapp
+
+拉取镜像到本地:
+docker pull raesene/bwapp
+
+运行镜像:
+1.docker run -d -p 0.0.0.0:8080:80 raesene/bwapp
+2.docker run -d --name bwapp -p 8080:80 raesene/bwapp 
+3.外网访问: docker run -d --name bwapp -p 0.0.0.0:8080:80 raesene/bwapp
+
+后台运行
+# 交互创建一个容器, 本容器 80 端口映射到宿主机的 8080 端口上
+$ docker run -d --name bwapp_vul -p 0.0.0.0:8080:80 raesene/bwapp
+
+通过浏览器访问web服务 
+http://127.0.0.1:8080/install.php
+
+
+
+
+命令行形式进入docker内部文件系统 
+
+可以通过 docker ps -a 命令查看已经在运行的容器，然后使用容器 ID 进入容器。
+
+C:\Programs\cmder_mini
+λ docker ps -a
+CONTAINER ID        IMAGE                                                 COMMAND                  CREATED             STATUS                       PORTS
+               NAMES
+40ad56eb6a93        raesene/bwapp                                         "/run.sh"                5 minutes ago       Up 5 minutes                 3306/tcp, 0.0.0.0:8080->80/tcp   loving_fermat
+a83919fb8244        raesene/bwapp                                         "/run.sh"                13 minutes ago      Exited (137) 7 minutes ago
+               bwapp
+6c6e090f0f77        opensecurity/mobile-security-framework-mobsf:latest   "gunicorn -b 0.0.0.0…"   2 months ago        Exited (0) 2 months ago
+                nervous_dewdney
+1357fc2ab429        opensecurity/mobile-security-framework-mobsf:latest   "gunicorn -b 0.0.0.0…"   2 months ago        Exited (0) 2 months ago
+                suspicious_swanson
+
+C:\Programs\cmder_mini
+λ docker exec -it 40ad56eb6a93 /bin/bash
+root@40ad56eb6a93:/#
+root@40ad56eb6a93:/# ls -al
+
+
+
+docker run：启动container
+ubuntu：你想要启动的image
+-t：进入终端
+-i：获得一个交互式的连接，通过获取container的输入
+/bin/bash：在container中启动一个bash shell
+
+
+如果要退出就：
+Ctrl-D
+或：
+root@af8bae53bdd3:/# exit
+
+
+启动bwapp之后
+http://192.168.2.7:8080/install.php  或者 http://localhost:8080/install.php  进行安装 
+安装完成后 
+http://192.168.2.7:8080/login.php  或者  http://localhost:8080/login.php  进入主页 
+
+
+注意：win7中应该使用虚拟机的ip来进入 http://192.168.99.100:8080/install.php  其中 192.168.99.100 是启动 Docker Quickstart Terminal 时显示的ip 
+http://192.168.99.100:8080/login.php
+
+
+
+4 进入container（容器）
+4.1 使用“docker attach”命令进入
+这个时候container运行在后台，如果想进入它的终端，则：
+docker attach goofy_almeida
+就可以了。
+4.2 使用“docker exec -it”命令进入
+使用“docker attach”命令进入container（容器）有一个缺点，那就是每次从container中退出到前台时，container也跟着退出了。
+要想退出container时，让container仍然在后台运行着，可以使用“docker exec -it”命令。每次使用这个命令进入container，当退出container后，container仍然在后台运行，命令使用方法如下：
+docker exec -it goofy_almeida /bin/bash
+goofy_almeida：要启动的container的名称
+/bin/bash：在container中启动一个bash shell
+这样输入“exit”或者按键“Ctrl + C”退出container时，这个container仍然在后台运行，通过：
+docker ps
+就可以查找到。
+
+5 退出container
+输入：
+exit
+或者按键：
+Ctrl + C
+
+
+win7 下:
+docker run -d --name mutillidae -p 0.0.0.0:8081:80 citizenstig/nowasp
+访问: http://192.168.99.100:8081  其中  192.168.99.100 是启动 Docker Quickstart Terminal 时显示的ip
+
+// webgoat 错误方式
+docker run -d --name webgoat -p 0.0.0.0:8082:80 webgoat/webgoat-8.0                           docker run -d --name webgoat -p 0.0.0.0:8082:8080 webgoat/webgoat-7.1
+
+// 正确方式  webgoat 使用的是8080 端口 即把容器内使用的8080端口映射到本机的8082端口 
+docker run -d --name webgoat -p 0.0.0.0:8082:8080 webgoat/webgoat-8.0 
+
+
+http://192.168.99.100:8082/WebGoat   http://localdocker:8082/WebGoat 
+http://localhost:8082/WebGoat (or http://localdocker:8082/WebGoat)   http://localhost:8080/WebGoat 
+
+
+// dvwa 
+docker search dvwa
+docker pull citizenstig/dvwa
+docker run -d --name dvwa_vul -p 0.0.0.0:8083:80 citizenstig/dvwa
+http://192.168.99.100:8083
+"admin // password"
+
+
+
+
+// VulApps 
+https://github.com/Medicean/VulApps
+docker search vulapps
+docker pull medicean/vulapps:z_zabbix_1
+docker run -d --name vulapps_sql -p 8084:80 medicean/vulapps:z_zabbix_1# 运行靶机
+http://192.168.99.100:8084
+
+
+
+// OWASP Mutillidae II 
+docker search Mutillidae
+docker pull citizenstig/nowasp
+docker run -d --name mutillidae -p 0.0.0.0:8081:80 citizenstig/nowasp
+访问  http://192.168.99.100:8081/
+
+
+首先通过PowerShell或cmd终端中执行【docker-machine stop default】命令停止default虚拟机
+通过PowerShell或cmd终端中执行【docker-machine start default】命令启动default虚拟机
+重启default  【docker-machine restart default】
+查看虚拟机 ip 【docker-machine ip】
+查看虚拟机的环境变量：【docker-machine env default】
+由上面命令的提示可以知道，可以通过
+【docker-machine env default | Invoke-Expression】
+命令建立powershell与linux虚拟机的连接，就像通过ssh连接一样，但是不用通过密码验证，这个时候就可以在windows终端直接使用docker命令了
+更新本机的docker  【docker-machine upgrade default】
+
+
+几个常用命令
+查看docker虚拟机的ip docker-machine ip
+查看虚拟机的环境变量 docker-machine env default
+显示本地已有的镜像 docker images
+查看Docker虚拟机的状态 docker-machine ls
+docker ps // 查看所有正在运行容器 
+docker stop containerId // containerId 是容器的ID
+docker ps -a // 查看所有容器 
+docker ps -a -q // 查看所有容器ID
+docker stop(docker ps -a -q) // stop停止所有容器
+docker rm(docker ps -a -q) // remove删除所有容器
+
+更换toolbox使用阿里云加速
+https://cr.console.aliyun.com
+镜像加速器-您的专属加速器地址
+docker-machine ssh default 
+sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=加速地址 |g" /var/lib/boot2docker/profile 
+exit 
+docker-machine restart default
+
+
+
+
+
+
+
+
+查看win7宿主机器路由
+C:\Users\Admin>route print
+
+
+命令行进入容器 46518587d4a7 为容器id 
+docker exec -it 46518587d4a7 /bin/bash
+
+
+使用 docker rm 命令来删除不需要的容器
+docker@default:~$ docker ps -a
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS                        PORTS                            NAMES
+c5726fc0d4e7        webgoat/webgoat-8.0   "java -Djava.securit…"   About an hour ago   Up 19 minutes                 8080/tcp, 0.0.0.0:8082->80/tcp   webgoat
+4aac84633c19        citizenstig/nowasp    "/run.sh"                About an hour ago   Exited (137) 44 minutes ago                                    mutillidae
+
+docker@default:~$ docker rm webgoat  
+
+
+
+
+
+
+查看 WEB 应用容器
+使用 docker ps 来查看我们正在运行的容器：
+runoob@runoob:~#  docker ps
+CONTAINER ID        IMAGE               COMMAND             ...        PORTS                 
+d3d5e39ed9d3        training/webapp     "python app.py"     ...        0.0.0.0:32769->5000/tcp
+这里多了端口信息。
+PORTS
+0.0.0.0:32769->5000/tcp
+Docker 开放了 5000 端口（默认 Python Flask 端口）映射到主机端口 32769 上。
+这时我们可以通过浏览器访问WEB应用
+http://192.168.239.130:32769
+
+
+我们也可以通过 -p 参数来设置不一样的端口：
+runoob@runoob:~$ docker run -d -p 5000:5000 training/webapp python app.py
+docker ps查看正在运行的容器
+runoob@runoob:~#  docker ps
+CONTAINER ID        IMAGE                             PORTS                     NAMES
+bf08b7f2cd89        training/webapp     ...        0.0.0.0:5000->5000/tcp    wizardly_chandrasekhar
+d3d5e39ed9d3        training/webapp     ...        0.0.0.0:32769->5000/tcp   xenodochial_hoov
+容器内部的 5000 端口映射到我们本地主机的 5000 端口上。
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+win7 内网访问docker容器内的服务  [通过配置路由表实现ip互通]
+运行任一服务
+命令行进入容器 46518587d4a7 为容器id : [docker exec -it 46518587d4a7 /bin/bash]
+查看容器ip:
+root@46518587d4a7:/# ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:ac:11:00:04  
+          inet addr:172.17.0.4  Bcast:172.17.255.255  Mask:255.255.0.0
+// 或者使用 46518587d4a7 为容器id : [docker inspect --format '{{ .NetworkSettings.IPAddress }}' 46518587d4a7] 获取镜像IP 
+
+添加路由
+
+--[[
+route -p add 172.17.0.0 MASK 255.255.255.0 10.0.75.2
+1.docker 的ip地址为: 
+10.0.75.0  
+255.255.255.0
+2.容器ip地址为:
+# ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:ac:11:00:04  
+          inet 172.17.0.2  netmask 255.255.0.0  broadcast 172.17.255.255  
+]]--
+
+
+$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' 46518587d4a7
+172.17.0.2
+
+C:\Users\Admin>docker-machine ip
+192.168.99.100
+
+在开始的时候，从本机直接到172.17.0.2是网络不通的，但是我们本机能到 192.168.99.100，172.17.0.2到192.168.99.100也是通的，我们可以在本机配置一个到172.17.0.2通过192.168.99.100的路由：
+route add -p 172.17.0.0 mask 255.255.0.0 192.168.99.100
+route add -p 172.17.0.0 mask 255.255.255.0 192.168.99.100
+
+查看路由 以管理员权限运行  []
+route print
+
+C:\Users\Admin>ipconfig /all
+
+Windows IP 配置
+
+   主机名  . . . . . . . . . . . . . : zhouxiaolong-p
+   主 DNS 后缀 . . . . . . . . . . . :
+   节点类型  . . . . . . . . . . . . : 混合
+   IP 路由已启用 . . . . . . . . . . : 否
+   WINS 代理已启用 . . . . . . . . . : 否
+
+以太网适配器 本地连接 2:
+
+   媒体状态  . . . . . . . . . . . . : 媒体已断开
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : IC Plus IP100A 10/100 Fast Ethernet Adapt
+er
+   物理地址. . . . . . . . . . . . . : 00-05-00-00-03-DA
+   DHCP 已启用 . . . . . . . . . . . : 是
+   自动配置已启用. . . . . . . . . . : 是
+
+以太网适配器 本地连接:
+
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : Realtek PCIe GbE Family Controller
+   物理地址. . . . . . . . . . . . . : 74-D4-35-7A-60-EE
+   DHCP 已启用 . . . . . . . . . . . : 否
+   自动配置已启用. . . . . . . . . . : 是
+   本地链接 IPv6 地址. . . . . . . . : fe80::64bc:6fe:9d44:bd36%11(首选)
+   IPv4 地址 . . . . . . . . . . . . : 192.168.51.206(首选)
+   子网掩码  . . . . . . . . . . . . : 255.255.255.0
+   默认网关. . . . . . . . . . . . . : 192.168.51.254
+   DHCPv6 IAID . . . . . . . . . . . : 242537525
+   DHCPv6 客户端 DUID  . . . . . . . : 00-01-00-01-24-86-6D-94-74-D4-35-7A-60-EE
+
+   DNS 服务器  . . . . . . . . . . . : 202.96.134.133
+                                       114.114.114.114
+   TCPIP 上的 NetBIOS  . . . . . . . : 已启用
+
+以太网适配器 VMware Network Adapter VMnet1:
+
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : VMware Virtual Ethernet Adapter for VMnet
+1
+   物理地址. . . . . . . . . . . . . : 00-50-56-C0-00-01
+   DHCP 已启用 . . . . . . . . . . . : 是
+   自动配置已启用. . . . . . . . . . : 是
+   本地链接 IPv6 地址. . . . . . . . : fe80::10a6:f3c9:12ba:5c1%14(首选)
+   IPv4 地址 . . . . . . . . . . . . : 192.168.132.1(首选)
+   子网掩码  . . . . . . . . . . . . : 255.255.255.0
+   获得租约的时间  . . . . . . . . . : 2019年9月6日 10:47:05
+   租约过期的时间  . . . . . . . . . : 2019年9月18日 17:47:39
+   默认网关. . . . . . . . . . . . . :
+   DHCP 服务器 . . . . . . . . . . . : 192.168.132.254
+   DHCPv6 IAID . . . . . . . . . . . : 369119318
+   DHCPv6 客户端 DUID  . . . . . . . : 00-01-00-01-24-86-6D-94-74-D4-35-7A-60-EE
+
+   DNS 服务器  . . . . . . . . . . . : fec0:0:0:ffff::1%1
+                                       fec0:0:0:ffff::2%1
+                                       fec0:0:0:ffff::3%1
+   TCPIP 上的 NetBIOS  . . . . . . . : 已启用
+
+以太网适配器 VMware Network Adapter VMnet8:
+
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : VMware Virtual Ethernet Adapter for VMnet
+8
+   物理地址. . . . . . . . . . . . . : 00-50-56-C0-00-08
+   DHCP 已启用 . . . . . . . . . . . : 是
+   自动配置已启用. . . . . . . . . . : 是
+   本地链接 IPv6 地址. . . . . . . . : fe80::65d3:8377:13fa:fb2%16(首选)
+   IPv4 地址 . . . . . . . . . . . . : 192.168.80.1(首选)
+   子网掩码  . . . . . . . . . . . . : 255.255.255.0
+   获得租约的时间  . . . . . . . . . : 2019年9月6日 10:47:05
+   租约过期的时间  . . . . . . . . . : 2019年9月18日 17:47:39
+   默认网关. . . . . . . . . . . . . :
+   DHCP 服务器 . . . . . . . . . . . : 192.168.80.254
+   DHCPv6 IAID . . . . . . . . . . . : 402673750
+   DHCPv6 客户端 DUID  . . . . . . . : 00-01-00-01-24-86-6D-94-74-D4-35-7A-60-EE
+
+   DNS 服务器  . . . . . . . . . . . : fec0:0:0:ffff::1%1
+                                       fec0:0:0:ffff::2%1
+                                       fec0:0:0:ffff::3%1
+   主 WINS 服务器  . . . . . . . . . : 192.168.80.2
+   TCPIP 上的 NetBIOS  . . . . . . . : 已启用
+
+以太网适配器 VirtualBox Host-Only Network:
+
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : VirtualBox Host-Only Ethernet Adapter
+   物理地址. . . . . . . . . . . . . : 0A-00-27-00-00-1B
+   DHCP 已启用 . . . . . . . . . . . : 否
+   自动配置已启用. . . . . . . . . . : 是
+   本地链接 IPv6 地址. . . . . . . . : fe80::929:74df:5409:2417%27(首选)
+   IPv4 地址 . . . . . . . . . . . . : 192.168.56.1(首选)
+   子网掩码  . . . . . . . . . . . . : 255.255.255.0
+   默认网关. . . . . . . . . . . . . :
+   DHCPv6 IAID . . . . . . . . . . . : 453640231
+   DHCPv6 客户端 DUID  . . . . . . . : 00-01-00-01-24-86-6D-94-74-D4-35-7A-60-EE
+
+   DNS 服务器  . . . . . . . . . . . : fec0:0:0:ffff::1%1
+                                       fec0:0:0:ffff::2%1
+                                       fec0:0:0:ffff::3%1
+   TCPIP 上的 NetBIOS  . . . . . . . : 已启用
+
+以太网适配器 VirtualBox Host-Only Network #2:
+
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : VirtualBox Host-Only Ethernet Adapter #2
+   物理地址. . . . . . . . . . . . . : 0A-00-27-00-00-20
+   DHCP 已启用 . . . . . . . . . . . : 否
+   自动配置已启用. . . . . . . . . . : 是
+   本地链接 IPv6 地址. . . . . . . . : fe80::54c6:1b74:55f9:4f4a%32(首选)
+   IPv4 地址 . . . . . . . . . . . . : 192.168.99.1(首选)
+   子网掩码  . . . . . . . . . . . . : 255.255.255.0
+   默认网关. . . . . . . . . . . . . :
+   DHCPv6 IAID . . . . . . . . . . . : 537526311
+   DHCPv6 客户端 DUID  . . . . . . . : 00-01-00-01-24-86-6D-94-74-D4-35-7A-60-EE
+
+   DNS 服务器  . . . . . . . . . . . : fec0:0:0:ffff::1%1
+                                       fec0:0:0:ffff::2%1
+                                       fec0:0:0:ffff::3%1
+   TCPIP 上的 NetBIOS  . . . . . . . : 已启用
+
+隧道适配器 isatap.{7C5AB1E1-2E26-4BF7-B404-2F6651810919}:
+
+   媒体状态  . . . . . . . . . . . . : 媒体已断开
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : Microsoft ISATAP Adapter
+   物理地址. . . . . . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP 已启用 . . . . . . . . . . . : 否
+   自动配置已启用. . . . . . . . . . : 是
+
+隧道适配器 isatap.{BBAD5D78-0365-4925-B0B5-F62B79DFCBBB}:
+
+   媒体状态  . . . . . . . . . . . . : 媒体已断开
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : Microsoft ISATAP Adapter #2
+   物理地址. . . . . . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP 已启用 . . . . . . . . . . . : 否
+   自动配置已启用. . . . . . . . . . : 是
+
+隧道适配器 isatap.{244E4946-9D64-45CD-B1F2-FCA92353E7FF}:
+
+   媒体状态  . . . . . . . . . . . . : 媒体已断开
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : Microsoft ISATAP Adapter #3
+   物理地址. . . . . . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP 已启用 . . . . . . . . . . . : 否
+   自动配置已启用. . . . . . . . . . : 是
+
+隧道适配器 isatap.{896D3857-620C-47DC-89C8-9A2CA817A677}:
+
+   媒体状态  . . . . . . . . . . . . : 媒体已断开
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : Microsoft ISATAP Adapter #4
+   物理地址. . . . . . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP 已启用 . . . . . . . . . . . : 否
+   自动配置已启用. . . . . . . . . . : 是
+
+隧道适配器 isatap.{400223D1-EC2E-461D-8B5B-D3CF0B330C01}:
+
+   媒体状态  . . . . . . . . . . . . : 媒体已断开
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : Microsoft ISATAP Adapter #5
+   物理地址. . . . . . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP 已启用 . . . . . . . . . . . : 否
+   自动配置已启用. . . . . . . . . . : 是
+
+隧道适配器 isatap.{2BFEAE86-40D2-4887-A8F4-3097894F29AC}:
+
+   媒体状态  . . . . . . . . . . . . : 媒体已断开
+   连接特定的 DNS 后缀 . . . . . . . :
+   描述. . . . . . . . . . . . . . . : Microsoft ISATAP Adapter #6
+   物理地址. . . . . . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP 已启用 . . . . . . . . . . . : 否
+   自动配置已启用. . . . . . . . . . : 是
+
+C:\Users\Admin>
+
+
+C:\Users\Admin>route print
+===========================================================================
+接口列表
+ 13...00 05 00 00 03 da ......IC Plus IP100A 10/100 Fast Ethernet Adapter
+ 11...74 d4 35 7a 60 ee ......Realtek PCIe GbE Family Controller
+ 14...00 50 56 c0 00 01 ......VMware Virtual Ethernet Adapter for VMnet1
+ 16...00 50 56 c0 00 08 ......VMware Virtual Ethernet Adapter for VMnet8
+ 27...0a 00 27 00 00 1b ......VirtualBox Host-Only Ethernet Adapter
+ 32...0a 00 27 00 00 20 ......VirtualBox Host-Only Ethernet Adapter #2
+  1...........................Software Loopback Interface 1
+ 12...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter
+ 19...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #2
+ 15...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #3
+ 17...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #4
+ 18...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #5
+ 35...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #6
+===========================================================================
+
+IPv4 路由表
+===========================================================================
+活动路由:
+网络目标        网络掩码          网关       接口   跃点数
+          0.0.0.0          0.0.0.0   192.168.51.254   192.168.51.206    276
+        127.0.0.0        255.0.0.0            在链路上         127.0.0.1    306
+        127.0.0.1  255.255.255.255            在链路上         127.0.0.1    306
+  127.255.255.255  255.255.255.255            在链路上         127.0.0.1    306
+     192.168.51.0    255.255.255.0            在链路上    192.168.51.206    276
+   192.168.51.206  255.255.255.255            在链路上    192.168.51.206    276
+   192.168.51.255  255.255.255.255            在链路上    192.168.51.206    276
+     192.168.56.0    255.255.255.0            在链路上      192.168.56.1    305
+     192.168.56.1  255.255.255.255            在链路上      192.168.56.1    305
+   192.168.56.255  255.255.255.255            在链路上      192.168.56.1    305
+     192.168.80.0    255.255.255.0            在链路上      192.168.80.1    276
+     192.168.80.1  255.255.255.255            在链路上      192.168.80.1    276
+   192.168.80.255  255.255.255.255            在链路上      192.168.80.1    276
+     192.168.99.0    255.255.255.0            在链路上      192.168.99.1    305
+     192.168.99.1  255.255.255.255            在链路上      192.168.99.1    305
+   192.168.99.255  255.255.255.255            在链路上      192.168.99.1    305
+    192.168.132.0    255.255.255.0            在链路上     192.168.132.1    276
+    192.168.132.1  255.255.255.255            在链路上     192.168.132.1    276
+  192.168.132.255  255.255.255.255            在链路上     192.168.132.1    276
+        224.0.0.0        240.0.0.0            在链路上         127.0.0.1    306
+        224.0.0.0        240.0.0.0            在链路上    192.168.51.206    276
+        224.0.0.0        240.0.0.0            在链路上     192.168.132.1    276
+        224.0.0.0        240.0.0.0            在链路上      192.168.80.1    276
+        224.0.0.0        240.0.0.0            在链路上      192.168.56.1    305
+        224.0.0.0        240.0.0.0            在链路上      192.168.99.1    305
+  255.255.255.255  255.255.255.255            在链路上         127.0.0.1    306
+  255.255.255.255  255.255.255.255            在链路上    192.168.51.206    276
+  255.255.255.255  255.255.255.255            在链路上     192.168.132.1    276
+  255.255.255.255  255.255.255.255            在链路上      192.168.80.1    276
+  255.255.255.255  255.255.255.255            在链路上      192.168.56.1    305
+  255.255.255.255  255.255.255.255            在链路上      192.168.99.1    305
+===========================================================================
+永久路由:
+  网络地址          网络掩码  网关地址  跃点数
+          0.0.0.0          0.0.0.0   192.168.51.254     默认
+===========================================================================
+
+IPv6 路由表
+===========================================================================
+活动路由:
+ 如果跃点数网络目标      网关
+  1    306 ::1/128                  在链路上
+ 11    276 fe80::/64                在链路上
+ 14    276 fe80::/64                在链路上
+ 16    276 fe80::/64                在链路上
+ 27    266 fe80::/64                在链路上
+ 32    266 fe80::/64                在链路上
+ 27    266 fe80::929:74df:5409:2417/128
+                                    在链路上
+ 14    276 fe80::10a6:f3c9:12ba:5c1/128
+                                    在链路上
+ 32    266 fe80::54c6:1b74:55f9:4f4a/128
+                                    在链路上
+ 11    276 fe80::64bc:6fe:9d44:bd36/128
+                                    在链路上
+ 16    276 fe80::65d3:8377:13fa:fb2/128
+                                    在链路上
+  1    306 ff00::/8                 在链路上
+ 11    276 ff00::/8                 在链路上
+ 14    276 ff00::/8                 在链路上
+ 16    276 ff00::/8                 在链路上
+ 27    266 ff00::/8                 在链路上
+ 32    266 ff00::/8                 在链路上
+===========================================================================
+永久路由:
+  无
+
+C:\Users\Admin>route add -p 172.17.0.0 mask 255.255.0.0 192.168.99.100
+请求的操作需要提升。
+
+C:\Users\Admin>route print
+===========================================================================
+接口列表
+ 13...00 05 00 00 03 da ......IC Plus IP100A 10/100 Fast Ethernet Adapter
+ 11...74 d4 35 7a 60 ee ......Realtek PCIe GbE Family Controller
+ 14...00 50 56 c0 00 01 ......VMware Virtual Ethernet Adapter for VMnet1
+ 16...00 50 56 c0 00 08 ......VMware Virtual Ethernet Adapter for VMnet8
+ 27...0a 00 27 00 00 1b ......VirtualBox Host-Only Ethernet Adapter
+ 32...0a 00 27 00 00 20 ......VirtualBox Host-Only Ethernet Adapter #2
+  1...........................Software Loopback Interface 1
+ 12...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter
+ 19...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #2
+ 15...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #3
+ 17...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #4
+ 18...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #5
+ 35...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #6
+===========================================================================
+
+IPv4 路由表
+===========================================================================
+活动路由:
+网络目标        网络掩码          网关       接口   跃点数
+          0.0.0.0          0.0.0.0   192.168.51.254   192.168.51.206    276
+        127.0.0.0        255.0.0.0            在链路上         127.0.0.1    306
+        127.0.0.1  255.255.255.255            在链路上         127.0.0.1    306
+  127.255.255.255  255.255.255.255            在链路上         127.0.0.1    306
+       172.17.0.0      255.255.0.0   192.168.99.100     192.168.99.1     50
+     192.168.51.0    255.255.255.0            在链路上    192.168.51.206    276
+   192.168.51.206  255.255.255.255            在链路上    192.168.51.206    276
+   192.168.51.255  255.255.255.255            在链路上    192.168.51.206    276
+     192.168.56.0    255.255.255.0            在链路上      192.168.56.1    305
+     192.168.56.1  255.255.255.255            在链路上      192.168.56.1    305
+   192.168.56.255  255.255.255.255            在链路上      192.168.56.1    305
+     192.168.80.0    255.255.255.0            在链路上      192.168.80.1    276
+     192.168.80.1  255.255.255.255            在链路上      192.168.80.1    276
+   192.168.80.255  255.255.255.255            在链路上      192.168.80.1    276
+     192.168.99.0    255.255.255.0            在链路上      192.168.99.1    305
+     192.168.99.1  255.255.255.255            在链路上      192.168.99.1    305
+   192.168.99.255  255.255.255.255            在链路上      192.168.99.1    305
+    192.168.132.0    255.255.255.0            在链路上     192.168.132.1    276
+    192.168.132.1  255.255.255.255            在链路上     192.168.132.1    276
+  192.168.132.255  255.255.255.255            在链路上     192.168.132.1    276
+        224.0.0.0        240.0.0.0            在链路上         127.0.0.1    306
+        224.0.0.0        240.0.0.0            在链路上    192.168.51.206    276
+        224.0.0.0        240.0.0.0            在链路上     192.168.132.1    276
+        224.0.0.0        240.0.0.0            在链路上      192.168.80.1    276
+        224.0.0.0        240.0.0.0            在链路上      192.168.56.1    305
+        224.0.0.0        240.0.0.0            在链路上      192.168.99.1    305
+  255.255.255.255  255.255.255.255            在链路上         127.0.0.1    306
+  255.255.255.255  255.255.255.255            在链路上    192.168.51.206    276
+  255.255.255.255  255.255.255.255            在链路上     192.168.132.1    276
+  255.255.255.255  255.255.255.255            在链路上      192.168.80.1    276
+  255.255.255.255  255.255.255.255            在链路上      192.168.56.1    305
+  255.255.255.255  255.255.255.255            在链路上      192.168.99.1    305
+===========================================================================
+永久路由:
+  网络地址          网络掩码  网关地址  跃点数
+          0.0.0.0          0.0.0.0   192.168.51.254     默认
+       172.17.0.0      255.255.0.0   192.168.99.100       1
+===========================================================================
+
+IPv6 路由表
+===========================================================================
+活动路由:
+ 如果跃点数网络目标      网关
+  1    306 ::1/128                  在链路上
+ 11    276 fe80::/64                在链路上
+ 14    276 fe80::/64                在链路上
+ 16    276 fe80::/64                在链路上
+ 27    266 fe80::/64                在链路上
+ 32    266 fe80::/64                在链路上
+ 27    266 fe80::929:74df:5409:2417/128
+                                    在链路上
+ 14    276 fe80::10a6:f3c9:12ba:5c1/128
+                                    在链路上
+ 32    266 fe80::54c6:1b74:55f9:4f4a/128
+                                    在链路上
+ 11    276 fe80::64bc:6fe:9d44:bd36/128
+                                    在链路上
+ 16    276 fe80::65d3:8377:13fa:fb2/128
+                                    在链路上
+  1    306 ff00::/8                 在链路上
+ 11    276 ff00::/8                 在链路上
+ 14    276 ff00::/8                 在链路上
+ 16    276 ff00::/8                 在链路上
+ 27    266 ff00::/8                 在链路上
+ 32    266 ff00::/8                 在链路上
+===========================================================================
+永久路由:
+  无
+
+C:\Users\Admin>
+
+删除路由：
+C:\Windows\system32>route delete 172.17.0.0
+ 操作完成!
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+*************************************************************************************************  centos7 安装 docker 
+五、安装docker
+[root@localhost ~]# yum install -y docker
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+Package 2:docker-1.13.1-74.git6e3bb8e.el7.centos.x86_64 already installed and latest version
+Nothing to do
+[root@localhost ~]# systemctl start docker
+[root@localhost ~]# systemctl enable docker
+[root@localhost ~]# docker version
+
+[root@localhost ~]# systemctl stop docker
+
+
+*************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,118 @@
+
+windows 查看端口占用:
+netstat -ano | findstr 5037
+
+emulator-5554 offline:
+netstat -ano | findstr 5555
+kill pid 
+
+
+清理自带的office 
+sudo apt-get purge libreoffice*
+sudo apt-get clean
+sudo apt-get autoremove
+
+
+
+mkdir ~/bin
+PATH=~/bin:$PATH
+
+// curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+// chmod a+x ~/bin/repo
+
+
+yuk@ubuntu:~/aosp4.4$ curl https://mirrors.tuna.tsinghua.edu.cn/git/git-repo > ~/aosp4.4/repo
+yuk@ubuntu:~/aosp4.4$ chmod a+x repo
+
+修改 repo 中 REPO_URL 值为 https://mirrors.tuna.tsinghua.edu.cn/git/git-repo 或者在 ~/.bashrc 中增加 export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/'
+
+
+mkdir WORKING_DIRECTORY
+cd WORKING_DIRECTORY
+
+
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+
+
+https://source.android.com/setup/start/build-numbers#source-code-tags-and-builds
+LMY48M	android-5.1.1_r14	Lollipop	Nexus 4、Nexus 5、Nexus 6、Nexus 7 (flo)、Nexus 9 (volantis/volantisg)、Nexus 10
+// repo init -u https://android.googlesource.com/platform/manifest -b android-4.0.1_r1
+repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-5.1.1_r14
+
+yuk@ubuntu:~/aosp4.4$ repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-5.1.1_r14
+yuk@ubuntu:~/aosp4.4$ repo sync
+
+
+
+
+根据选择的分支下载相应的drivers
+https://developers.google.com/android/drivers
+选择 Nexus 4 binaries for Android 5.1.1 (LMY48I) 下的 NFC 等驱动。
+
+
+配置USB权限
+https://developer.android.com/studio/run/device.html#setting-up
+a. 以 root 身份登录，并创建此文件：/etc/udev/rules.d/51-android.rules。
+使用下面的格式将各个供应商添加到文件中：
+SUBSYSTEM=="usb", ATTR{idVendor}=="0bb4", MODE="0666", GROUP="plugdev" 
+在本例中，供应商 ID 为 HTC 的 ID。MODE 赋值指定读/写权限，GROUP 则定义哪个 Unix 组拥有设备节点。
+
+SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666", GROUP="plugdev"
+
+
+b. 现在，请执行：
+chmod a+r /etc/udev/rules.d/51-android.rules
+
+
+root@ubuntu:/home/yuk# touch /etc/udev/rules.d/51-android.rules
+root@ubuntu:/home/yuk# vim /etc/udev/rules.d/51-android.rules
+root@ubuntu:/home/yuk# 
+root@ubuntu:/home/yuk# chmod a+r /etc/udev/rules.d/51-android.rules
+root@ubuntu:/home/yuk# ls -al /etc/udev/rules.d/51-android.rules
+-rw-r--r-- 1 root root 70 May 30 02:00 /etc/udev/rules.d/51-android.rules
+root@ubuntu:/home/yuk# 
+
+
+root权限
+yuk@ubuntu:~$ sudo passwd root
+[sudo] password for yuk: 
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: password updated successfully
+yuk@ubuntu:~$ 
+yuk@ubuntu:~$ su
+Password: 
+root@ubuntu:/home/yuk# exit
+
+
+
+https://source.android.com/setup/build/initializing
+导出 OUT_DIR_COMMON_BASE 变量，使其指向将存储输出目录的位置。
+export OUT_DIR_COMMON_BASE=<path-to-your-out-directory>
+
+搭建编译环境
+sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip
+
+
+JDK:
+Android 7.0 (Nougat) - Android 8.0 (Oreo)：Ubuntu - OpenJDK 8；Mac OS - jdk 8u45 或更高版本
+Android 5.x (Lollipop) - Android 6.0 (Marshmallow)：Ubuntu - OpenJDK 7；Mac OS - jdk-7u71-macosx-x64.dmg
+Android 2.3.x (Gingerbread) - Android 4.4.x (KitKat)：Ubuntu - Java JDK 6；Mac OS - Java JDK 6
+Android 1.5 (Cupcake) - Android 2.2.x (Froyo)：Ubuntu - Java JDK 5
+
+
+安装openjdk-7 
+sudo add-apt-repository ppa:openjdk-r/ppa 
+sudo apt-get update
+sudo apt-get install openjdk-7-jdk 
+
+查看当前系统是否已经配置JAVA_HOME；
+echo $JAVA_HOME
+
+写入JAVA_HOME（openjdk的安装路径）给系统配置文件 .bashrc；
+echo export JAVA_HOME="/usr/lib/jvm/java-7-openjdk-amd64/" >> ~/.bashrc
+
+
+
+

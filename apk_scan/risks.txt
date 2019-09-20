@@ -1,0 +1,180 @@
+
+
+manifest 四大组件 
+
+
+日志  
+四大组件  
+存储   存储卡  SharedPreferences 
+网络  
+隐私 地理位置
+加解密  
+残留信息  URL  邮件地址  帐号密码 
+
+
+
+日志泄露风险
+Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+
+调试日志函数调用风险
+Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+Landroid/util/Log;->v(Ljava/lang/String;Ljava/lang/String;)I
+
+
+通信套接字安全
+Ljava/net/InetSocketAddress;
+Ljava/net/InetSocketAddress;-><init>(Ljava/lang/String;I)V
+Ljava/net/Proxy;-><init>(Ljava/net/Proxy$Type;Ljava/net/SocketAddress;)V
+
+
+
+存储卡的操作行为
+Landroid/os/Environment;->getExternalStorageDirectory()Ljava/io/File;
+
+
+获取地理位置行为
+Landroid/telephony/TelephonyManager;->getCellLocation()Landroid/telephony/CellLocation;
+Landroid/telephony/gsm/GsmCellLocation;->getLac()I
+Landroid/telephony/NeighboringCellInfo;->getCid()I
+
+
+敏感函数调用
+Landroid/telephony/TelephonyManager;->getSubscriberId()Ljava/lang/String;
+Landroid/telephony/TelephonyManager;->listen(Landroid/telephony/PhoneStateListener;I)V
+Landroid/telephony/TelephonyManager;->getNetworkOperator()Ljava/lang/String;
+Landroid/telephony/TelephonyManager;->getSimOperator()Ljava/lang/String;
+Landroid/app/ActivityManager;->getRunningAppProcesses()Ljava/util/List;
+Landroid/content/pm/PackageManager;->getInstalledPackages(I)Ljava/util/List;
+
+
+
+动态注册Receiver风险
+可以使用droidstatx 
+Landroid/app/Activity;->registerReceiver(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;
+Landroid/content/Context;->registerReceiver(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;
+Lcom/uroad/libcommon/base/RxBaseActivity;->registerReceiver(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;
+
+
+
+Intent隐式调用
+Landroid/content/Intent;->setAction(Ljava/lang/String;)Landroid/content/Intent;
+
+PendingIntent错误使用Intent风险
+Landroid/app/PendingIntent;->getService(Landroid/content/Context;ILandroid/content/Intent;I)Landroid/app/PendingIntent;
+
+
+
+初始化IvParameterSpec函数错误
+Ljavax/crypto/spec/IvParameterSpec;-><init>([B)V
+
+
+
+
+
+
+
+
+
+
+使用反射检测
+Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+
+
+Intent Scheme URL攻击漏洞
+Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
+
+
+设备信息手机号操作行为
+Landroid/telephony/TelephonyManager;->getDeviceId()Ljava/lang/String;
+
+
+随机数生成函数使用错误
+Ljava/security/SecureRandom;->setSeed([B)V
+
+残留URL检测 ???????????????????????????? 
+
+
+Zip文件目录遍历风险
+Ljava/util/zip/ZipEntry;->getName()Ljava/lang/String;
+
+
+动态加载DEX文件检测
+Ldalvik/system/PathClassLoader;-><init>(Ljava/lang/String;Ljava/lang/ClassLoader;)V
+Ldalvik/system/DexClassLoader;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/ClassLoader;)V
+
+
+SharedPreferences任意读写 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences; 存在风险的模式 0x1
+
+
+加密函数检测  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Ljava/security/MessageDigest;->getInstance(Ljava/lang/String;)Ljava/security/MessageDigest; "MD5"
+Ljava/security/MessageDigest;->getInstance(Ljava/lang/String;)Ljava/security/MessageDigest; "SHA-1"
+
+
+WeakCryptographic !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+AES/DES弱加密   使用AES/DES加密算法时应使用CBC或CFB模式，或者使用安全组件的安全加密接口SecurityCipher进行加密。
+可以使用droidstatx 的 findWeakCryptographicUsage 
+Ljavax/crypto/Cipher;->getInstance(Ljava/lang/String;)Ljavax/crypto/Cipher;
+
+
+
+
+WebView file域同源策略绕过风险  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+Landroid/webkit/WebSettings;->setAllowFileAccess(Z)V 存在风险的模式 0x1
+
+
+谷歌列出的危险权限 
+https://developer.android.com/guide/topics/security/permissions.html#normal-dangerous
+
+
+
+
+
+
+
+权限:
+group:android.permission-group.CONTACTS
+  permission:android.permission.WRITE_CONTACTS
+  permission:android.permission.GET_ACCOUNTS
+  permission:android.permission.READ_CONTACTS
+group:android.permission-group.PHONE
+  permission:android.permission.READ_CALL_LOG
+  permission:android.permission.READ_PHONE_STATE
+  permission:android.permission.CALL_PHONE
+  permission:android.permission.WRITE_CALL_LOG
+  permission:android.permission.USE_SIP
+  permission:android.permission.PROCESS_OUTGOING_CALLS
+  permission:com.android.voicemail.permission.ADD_VOICEMAIL
+group:android.permission-group.CALENDAR
+  permission:android.permission.READ_CALENDAR
+  permission:android.permission.WRITE_CALENDAR
+group:android.permission-group.CAMERA
+  permission:android.permission.CAMERA
+group:android.permission-group.SENSORS
+  permission:android.permission.BODY_SENSORS
+group:android.permission-group.LOCATION
+  permission:android.permission.ACCESS_FINE_LOCATION
+  permission:android.permission.ACCESS_COARSE_LOCATION
+group:android.permission-group.STORAGE
+  permission:android.permission.READ_EXTERNAL_STORAGE
+  permission:android.permission.WRITE_EXTERNAL_STORAGE
+group:android.permission-group.MICROPHONE
+  permission:android.permission.RECORD_AUDIO
+group:android.permission-group.SMS
+  permission:android.permission.READ_SMS
+  permission:android.permission.RECEIVE_WAP_PUSH
+  permission:android.permission.RECEIVE_MMS
+  permission:android.permission.RECEIVE_SMS
+  permission:android.permission.SEND_SMS
+  permission:android.permission.READ_CELL_BROADCASTS
+
+
+
+
+
+
+
+
+

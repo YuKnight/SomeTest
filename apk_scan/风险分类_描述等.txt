@@ -1,0 +1,331 @@
+
+
+避免踩坑：易盾安全老司机起底Android九大漏洞，附解决建议 
+Android应用会遇到各种各样的漏洞，如何从细节上了解各种安全隐患，积极采取适当的防御措施便变得尤为重要。为了让大家对Android漏洞有一个非常全面的认识，网易云易盾资深安全工程师徐从祥为大家详细解读常见九大的Android漏洞，供各位学习参考。（如果下面干货内容没有让各位尽兴，欢迎来官网申请相关产品试用，面对面交流，保证解决你的安全难题。）
+
+
+第一大类：AndroidManifest配置相关的风险或漏洞
+程序可被任意调试
+风险详情：安卓应用apk配置文件Android Manifest.xml中android:debuggable=true，调试开关被打开。
+危害情况：app可以被调试。
+修复建议：把AndroidManifest.xml配置文件中调试开关属性关掉，即设置android:Debugable="false"。
+
+程序数据任意备份
+风险详情：安卓应用apk配置文件AndroidManifest.xml中android:allowBackup=true，数据备份开关被打开。
+危害情况：app应用数据可被备份导出。
+修复建议：把AndroidManifest.xml配置文件备份开关关掉，即设置android:allowBackup="false"。
+组件暴露：建议使用android:protectionLevel="signature"验证调用来源。
+
+Activity组件暴露
+风险详情：Activity组件的属性exported被设置为true或是未设置exported值但IntentFilter不为空时，activity被认为是导出的，可通过设置相应的Intent唤起activity。
+危害情况：黑客可能构造恶意数据针对导出activity组件实施越权攻击。
+修复建议：如果组件不需要与其他app共享数据或交互，请将AndroidManifest.xml 配置文件中设置该组件为exported = “False”。如果组件需要与其他app共享数据或交互，请对组件进行权限控制和参数校验。
+
+Service组件暴露
+风险详情：Service组件的属性exported被设置为true或是未设置exported值但IntentFilter不为空时，Service被认为是导出的，可通过设置相应的Intent唤起Service。
+危害情况：黑客可能构造恶意数据针对导出Service组件实施越权攻击。
+修复建议：如果组件不需要与其他app共享数据或交互，请将AndroidManifest.xml 配置文件中设置该组件为exported = “False”。如果组件需要与其他app共享数据或交互，请对组件进行权限控制和参数校验。
+
+ContentProvider组件暴露
+风险详情：ContentProvider组件的属性exported被设置为true或是Android API<=16时，Content Provider被认为是导出的。
+危害情况：黑客可能访问到应用本身不想共享的数据或文件。
+修复建议：如果组件不需要与其他app共享数据或交互，请将AndroidManifest.xml 配置文件中设置该组件为exported = “False”。如果组件需要与其他app共享数据或交互，请对组件进行权限控制和参数校验。
+
+BroadcastReceiver组件暴露
+风险详情：BroadcastReceiver组件的属性exported被设置为true或是未设置exported值但IntentFilter不为空时，BroadcastReceiver被认为是导出的。
+危害情况：导出的广播可以导致数据泄漏或者是越权。
+修复建议：如果组件不需要与其他app共享数据或交互，请将AndroidManifest.xml 配置文件中设置该组件为exported = “False”。如果组件需要与其他app共享数据或交互，请对组件进行权限控制和参数校验。
+
+Intent SchemeURLs攻击
+风险详情：在AndroidManifast.xml设置Scheme协议之后，可以通过浏览器打开对应的Activity。
+危害情况：攻击者通过访问浏览器构造Intent语法唤起app相应组件，轻则引起拒绝服务，重则可能演变对app进行越权调用甚至升级为提权漏洞。
+修复建议：app对外部调用过程和传输数据进行安全检查或检验，配置category filter, 添加android.intent.category.BROWSABLE方式规避风险
+
+第二大类：WebView组件及与服务器通信相关的风险或漏洞
+
+Webview存在本地Java接口
+风险详情：android的webView组件有一个非常特殊的接口函数addJavaInterface，能实现本地java与js之间交互。
+危害情况：在targetSdkVersion小于17时，攻击者利用 addJavaInterface这个接口添加的函数，可以远程执行任意代码。
+修复建议：建议开发者不要使用addJavaInterface，使用注入java和第三方协议的替代方案。
+
+Webview组件远程代码执行（调用getClassLoader）
+风险详情：使用低于17的targetSDKVersion，并且在Context子类中使用addJavaInterface绑定this对象。
+危害情况：通过调用getClassLoader可以绕过google底层对getClass方法的限制。
+修复建议：targetSDKVersion使用大于17的版本。
+
+WebView忽略SSL证书错误
+风险详情：WebView调用onReceivedSslError方法时，直接执行handler.proceed()来忽略该证书错误。
+危害情况：忽略SSL证书错误可能引起中间人攻击。
+修复建议：不要重写onReceivedSslError方法，或者对于SSL证书错误问题按照业务场景判断，避免造成数据明文传输情况。
+
+webview启用访问文件数据
+风险详情：Webview中使用setAllowFileAccess(true)，App可通过webview访问私有目录下的文件数据。
+危害情况：在Android中，mWebView.setAllowFileAccess(true)为默认设置。当setAllowFileAccess(true)时，在File域下，可执行任意的Java代码，如果绕过同源策略能够对私有目录文件进行访问，导致用户隐私泄漏。
+修复建议：使用WebView.getSettings().setAllowFileAccess(false)来禁止访问私有文件数据。
+
+SSL通信服务端检测信任任意证书
+风险详情：自定义SSLx509 TrustManager，重写checkServerTrusted方法，方法内不做任何服务端的证书校验。
+危害情况：黑客可以使用中间人攻击获取加密内容。
+修复建议：严格判断服务端和客户端证书校验，对于异常事件禁止return 空或者null。
+
+HTTPS关闭主机名验证
+风险详情：构造HttpClient时，设置HostnameVerifier时参数使用ALLOW_ALL_HOSTNAME_VERIFIER或空的HostnameVerifier。
+危害情况：关闭主机名校验可以导致黑客使用中间人攻击获取加密内容。
+修复建议：APP在使用SSL时没有对证书的主机名进行校验，信任任意主机名下的合法的证书，导致加密通信可被还原成明文通信，加密传输遭到破坏。
+
+SSL通信客户端检测信任任意证书
+风险详情：自定义SSLx509 TrustManager，重写checkClientTrusted方法，方法内不做任何服务端的证书校验。
+危害情况：黑客可以使用中间人攻击获取加密内容。
+修复建议：严格判断服务端和客户端证书校验，对于异常事件禁止return 空或者null。
+
+开放socket端口
+风险详情：app绑定端口进行监听，建立连接后可接收外部发送的数据。
+危害情况：攻击者可构造恶意数据对端口进行测试，对于绑定了IP 0.0.0.0的app可发起远程攻击。
+修复建议：如无必要，只绑定本地ip127.0.0.1，并且对接收的数据进行过滤、验证。
+
+第三大类：数据安全风险
+数据储存：
+SD卡数据被第三方程序访问
+漏洞描述：发现调用getExternalStorageDirectory，存储内容到SD卡可以被任意程序访问，存在安全隐患。
+安全建议：建议存储敏感信息到程序私有目录，并对敏感数据加密。
+
+全局File可读写漏洞-openFileOutput
+风险详情：openFileOutput(Stringname,int mode)方法创建内部文件时，将文件设置了全局的可读权限MODE_WORLD_READABLE。
+危害情况：攻击者恶意读取文件内容，获取敏感信息。
+修复建议：请开发者确认该文件是否存储敏感数据，如存在相关数据，请去掉文件全局可读属性。
+
+全局文件可写
+风险详情：openFileOutput(Stringname,int mode)方法创建内部文件时，将文件设置了全局的可写权限MODE_WORLD_WRITEABLE。
+危害情况：攻击者恶意写文件内容破坏APP的完整性。
+修复建议：请开发者确认该文件是否存储敏感数据，如存在相关数据，请去掉文件全局可写属性。
+
+全局文件可读可写
+风险详情：openFileOutput(Stringname,int mode)方法创建内部文件时，将文件设置了全局的可读写权限。
+危害情况：攻击者恶意写文件内容或者，破坏APP的完整性，或者是攻击者恶意读取文件内容，获取敏感信息。
+修复建议：请开发者确认该文件是否存储敏感数据，如存在相关数据，请去掉文件全局可写、写属性。
+
+私有文件泄露风险-getSharedPreferences：
+配置文件可读
+风险详情：使用getSharedPreferences打开文件时第二个参数设置为MODE_WORLD_READABLE。
+危害情况：文件可以被其他应用读取导致信息泄漏。
+修复建议：如果必须设置为全局可读模式供其他程序使用，请保证存储的数据非隐私数据或是加密后存储。
+
+配置文件可写
+风险详情：使用getSharedPreferences打开文件时第二个参数设置为MODE_WORLD_WRITEABLE。
+危害情况：文件可以被其他应用写入导致文件内容被篡改，可能导致影响应用程序的正常运行或更严重的问题。
+修复建议：使用getSharedPreferences时第二个参数设置为MODE_PRIVATE即可。
+
+配置文件可读可写
+风险详情：使用getSharedPreferences打开文件时，如将第二个参数设置为MODE_WORLD_READABLE 或 MODE_WORLD_WRITEABLE。
+危害情况：当前文件可以被其他应用读取和写入，导致信息泄漏、文件内容被篡改，影响应用程序的正常运行或更严重的问题。
+修复建议：使用getSharedPreferences时第二个参数设置为MODE_PRIVATE。禁止使用MODE_WORLD_READABLE |MODE_WORLD_WRITEABLE模式。
+
+数据加密：
+明文数字证书漏洞
+Apk使用的数字证书可被用来校验服务器的合法身份，以及在与服务器进行通信的过程中对传输数据进行加密、解密运算，保证传输数据的保密性、完整性。
+明文存储的数字证书如果被篡改，客户端可能连接到假冒的服务端上，导致用户名、密码等信息被窃取；如果明文证书被盗取，可能造成传输数据被截获解密，用户信息泄露，或者伪造客户端向服务器发送请求，篡改服务器中的用户数据或造成服务器响应异常。
+
+AES弱加密
+风险详情：在AES加密时，使用了“AES/ECB/NoPadding”或“AES/ECB/PKCS5padding”的模式。
+危害情况：ECB是将文件分块后对文件块做同一加密，破解加密只需要针对一个文件块进行解密，降低了破解难度和文件安全性。
+修复建议：禁止使用AES加密的ECB模式，显式指定加密算法为：CBC或CFB模式，可带上PKCS5Padding填充。AES密钥长度最少是128位，推荐使用256位。
+
+随机数不安全使用
+风险详情：调用SecureRandom类中的setSeed方法。
+危害情况：生成的随机数具有确定性，存在被破解的可能性。
+修复建议：用/dev/urandom或/dev/random来初始化伪随机数生成器。
+
+AES/DES硬编码密钥
+风险详情：使用AES或DES加解密时，密钥采用硬编码在程序中。
+危害情况：通过反编译获取密钥可以轻易解密APP通信数据。
+修复建议：密钥加密存储或变形后进行加解密运算，不要硬编码到代码中。
+
+数据传输：与上面的重复了，也可以把webview系列的漏洞归入这一小类。
+
+第四大类：文件目录遍历类漏洞
+
+Provider文件目录遍历
+风险详情：当Provider被导出且覆写了openFile方法时，没有对Content Query Uri进行有效判断或过滤。
+危害情况：攻击者可以利用openFile()接口进行文件目录遍历以达到访问任意可读文件的目的。
+修复建议：一般情况下无需覆写openFile方法，如果必要，对提交的参数进行“../”目录跳转符或其他安全校验。
+
+unzip解压缩漏洞
+风险详情：解压 zip文件，使用getName()获取压缩文件名后未对名称进行校验。
+危害情况：攻击者可构造恶意zip文件，被解压的文件将会进行目录跳转被解压到其他目录，覆盖相应文件导致任意代码执行。
+修复建议：解压文件时，判断文件名是否有../特殊字符。
+
+第五大类：文件格式解析类漏洞
+FFmpeg文件读取
+风险详情：使用了低版本的FFmpeg库进行视频解码。
+危害情况：在FFmpeg的某些版本中可能存在本地文件读取漏洞，可以通过构造恶意文件获取本地文件内容。
+修复建议：升级FFmpeg库到最新版。
+
+安卓“Janus”漏洞
+漏洞详情：向原始的AppAPK的前部添加一个攻击的classes.dex文件(A文件)，安卓系统在校验时计算了A文件的hash值，并以”classes.dex”字符串做为key保存， 然后安卓计算原始的classes.dex文件（B），并再次以”classes.dex”字符串做为key保存，这次保存会覆盖掉A文件的hash值，导致Android系统认为APK没有被修改，完成安装，APK程序运行时，系统优先以先找到的A文件执行，忽略了B，导致漏洞的产生。
+危害情况：该漏洞可以让攻击者绕过安卓系统的signature scheme V1签名机制，进而直接对App进行篡改。而且由于安卓系统的其他安全机制也是建立在签名和校验基础之上，该漏洞相当于绕过了安卓系统的整个安全机制。
+修复建议：禁止安装有多个同名ZipEntry的APK文件。
+
+第六大类：内存堆栈类漏洞
+未使用编译器堆栈保护技术
+风险详情：为了检测栈中的溢出，引入了Stack Canaries漏洞缓解技术。在所有函数调用发生时，向栈帧内压入一个额外的被称作canary的随机数，当栈中发生溢出时，canary将被首先覆盖，之后才是EBP和返回地址。在函数返回之前，系统将执行一个额外的安全验证操作，将栈帧中原先存放的canary和.data中副本的值进行比较，如果两者不吻合，说明发生了栈溢出。
+危害情况：不使用StackCanaries栈保护技术，发生栈溢出时系统并不会对程序进行保护。
+修复建议：使用NDK编译so时，在Android.mk文件中添加：LOCAL_CFLAGS := -Wall -O2 -U_FORTIFY_SOURCE -fstack-protector-all
+
+未使用地址空间随机化技术
+风险详情：PIE全称Position Independent Executables，是一种地址空间随机化技术。当so被加载时，在内存里的地址是随机分配的。
+危害情况：不使用PIE，将会使得shellcode的执行难度降低，攻击成功率增加。
+修复建议：NDK编译so时，加入LOCAL_CFLAGS := -fpie -pie开启对PIE的支持。
+
+libupnp栈溢出漏洞
+风险详情：使用了低于1.6.18版本的libupnp库文件。
+危害情况：构造恶意数据包可造成缓冲区溢出，造成代码执行。
+修复建议：升级libupnp库到1.6.18版本或以上。
+
+第七大类：动态类漏洞
+DEX文件动态加载
+风险详情：使用DexClassLoader加载外部的 apk、jar 或 dex文件，当外部文件的来源无法控制时或是被篡改，此时无法保证加载的文件是否安全。
+危害情况：加载恶意的dex文件将会导致任意命令的执行。
+修复建议：加载外部文件前，必须使用校验签名或MD5等方式确认外部文件的安全性。
+
+动态注册广播
+风险详情：使用registerReceiver动态注册的广播在组件的生命周期里是默认导出的。
+危害情况：导出的广播可以导致拒绝服务、数据泄漏或是越权调用。
+修复建议：使用带权限检验的registerReceiver API进行动态广播的注册。
+
+第八大类：校验或限定不严导致的风险或漏洞
+Fragment注入
+风险详情：通过导出的PreferenceActivity的子类，没有正确处理Intent的extra值。
+危害情况：攻击者可绕过限制访问未授权的界面。
+修复建议：当targetSdk大于等于19时，强制实现了isValidFragment方法；小于19时，在PreferenceActivity的子类中都要加入isValidFragment ，两种情况下在isValidFragment方法中进行fragment名的合法性校验。
+
+隐式意图调用
+风险详情：封装Intent时采用隐式设置，只设定action，未限定具体的接收对象，导致Intent可被其他应用获取并读取其中数据。
+危害情况：Intent隐式调用发送的意图可被第三方劫持，导致内部隐私数据泄露。
+修复建议：可将隐式调用改为显式调用。
+
+第九大类：命令行调用类相关的风险或漏洞
+动态链接库中包含执行命令函数
+风险详情：在native程序中，有时需要执行系统命令，在接收外部传入的参数执行命令时没有做过滤或检验。
+危害情况：攻击者传入任意命令，导致恶意命令的执行。
+修复建议：对传入的参数进行严格的过滤
+
+
+
+检测在以下目录中是否存在名为 "su" 的文件 
+"/system/bin/", "/system/xbin/", "/system/sbin/", "/sbin/","/vendor/bin/"
+
+
+未移除有风险的Webview系统隐藏接口漏洞
+开发者显式移除有风险的Webview系统隐藏接口。
+以下为修复代码示例：
+在使用Webview加载页面之前，执行
+webView.removeJavascriptInterface("searchBoxJavaBridge_");
+webView.removeJavascriptInterface("accessibility");
+webView.removeJavascriptInterface("accessibilityTraversal");
+
+
+
+
+截屏攻击风险
+开发者审查应用中显示或者输入关键信息的界面，在此类Activity创建时设置WindowManager.LayoutParams.FLAG_SECURE属性，该属性能防止屏幕被截图和录制
+public class DemoActivity extends Activity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,  WindowManager.LayoutParams.FLAG_SECURE);
+        setContentView(R.layout.main);
+    }
+}
+
+
+
+
+随机数不安全使用漏洞
+禁止在生成随机数之前调用setSeed()方法设置随机种子或调用SecureRandom类的构造函数SecureRandom(byte[] seed)，建议通过/dev/urandom或者/dev/random获取的熵值来初始化伪随机数生成器。
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+https://blog.csdn.net/qq_39325340/article/details/81224617
+Activity组件暴露
+风险描述：
+Activity组件的属性exported被设置为true或是未设置exported值但IntentFilter不为空，activity被认为是导出的，可通过设置相应的Intent唤起activity。
+危害描述：
+黑客可能构造恶意数据针对导出activity组件实施越权攻击，注入/越权，拒绝服务，劫持/隐式意图等。
+安全建议：
+如果组件不需要与其他app共享数据或交互，请将AndroidManifest.xml 配置文件中设置该组件为exported = “False”。如果组件需要与其他app共享数据或交互， 请对组件进行权限控制和参数校验。
+测试方法：
+# 启动activity
+adb shell am start -n com.zxc.criminalintent/.CrimeCameraActivity
+
+
+
+Service组件暴露
+风险描述：
+Service组件的属性exported被设置为true或是未设置exported值但IntentFilter不为空，Service被认为是导出的，可通过设置相应的Intent唤起Service。
+危害描述：
+黑客可能构造恶意数据针对导出Service组件实施越权攻击。
+安全建议：
+如果组件不需要与其他app共享数据或交互，请将AndroidManifest.xml 配置文件中设置该组件为exported = “False”。如果组件需要与其他app共享数据或交互， 请对组件进行权限控制和参数校验。
+测试方法：
+# 启动service
+adb shell am startservice -n com.android.traffic/com.android.traffic.maniservice
+
+
+ContentProvider组件暴露
+风险描述：
+Content Provider组件的属性exported被设置为true或Android API<=16，Content Provider被认为是导出的。
+危害描述：
+黑客可能访问到应用本身不想共享的数据或文件。
+安全建议：
+1.minSdkVersion不低于9
+2.不向外部app提供的数据的私有content provider设置exported=“false”避免组件暴露(编译api小于17时更应注意此点)
+3.使用参数化查询避免注入
+4.内部app通过content provid交换数据设置protectionLevel=“signature”验证签名
+5.公开的content provider确保不存储敏感数据
+6.Uri.decode() before use ContentProvider.openFile()
+7.提供asset文件时注意权限保护
+测试方法：
+drozer:
+run app.provider.info -a cn.etouch.ecalendar
+run app.provider.query content://##/carriers/preferapn --vertical
+ 
+BroadcastReceiver组件暴露
+风险描述：
+BroadcastReceiver组件的属性exported被设置为true或是未设置exported值但IntentFilter不为空，BroadcastReceiver被认为是导出的。
+危害描述：
+导出的广播可以导致数据泄漏或者是越权。
+安全建议：
+如果组件不需要与其他app共享数据或交互，请将AndroidManifest.xml 配置文件中设置该组件为exported = “False”。如果组件需要与其他app共享数据或交互， 请对组件进行权限控制和参数校验。
+测试方法：
+# 发送broadcast，比如在模拟器中发生关机的broadcast
+adb shell am broadcast -a android.intent.action.ACTION_SHUTDOWN -c android.intent.category.HOME -n com.andy.androidtest/.ShutdownBroadcastReceiver
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
