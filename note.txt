@@ -1,0 +1,36 @@
+
+
+
+sudo yum -y install OpenSSL libplist libusbmuxd usbmuxd make autoheader automake autoconf libtool pkg-config gcc  cython  doxygen 
+
+检查安装包:
+yum whatprovides autoheader pkg-config 
+查找yum install 安装的安装包:
+[yuk@localhost ~]$ rpm -qa|grep libplist
+libplist-1.12-3.el7.x86_64
+查找yum install 安装的安装包位置:
+
+[yuk@localhost ~]$ rpm -ql libplist-1.12-3.el7.x86_64
+/usr/share/doc/libplist-1.12
+.....
+
+
+usbmuxd:
+sudo yum -y install make autoheader automake  autoconf libtool pkg-config gcc  udev  systemd 
+autoheader ---> autoconf
+pkg-config ---> pkgconfig
+
+编译usbmuxd:
+[yuk@localhost usbmuxd]$ export PKG_CONFIG_PATH=/usr/share/doc/pkgconfig-0.27.1
+
+https://askubuntu.com/questions/210210/pkg-config-path-environment-variable
+[yuk@localhost usbmuxd]$ export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/share/pkgconfig
+
+[yuk@localhost usbmuxd]$ export libplist_LIBS=/usr/share/doc/libplist-1.12
+
+[yuk@localhost usbmuxd]$ ./autogen.sh --prefix=/usr/share/doc/
+
+
+libplist -> libusbmuxd -> libimobiledevice -> usbmuxd, ifuse, ideviceinstaller, ...
+
+

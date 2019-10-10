@@ -1,0 +1,51 @@
+
+
+
+Nexus6P unlock
+
+Bootloader Unlock Guide
+Step 1. Enable OEM Unlock and USB Debugging on your Nexus 6P.
+
+Go to Settings > About device. Locate build no. and tap on it 7-8 times or until you get toast notification saying ‘you’re now a developer’.
+Go back to Settings, and scroll down and open ‘Developer options’.
+Locate ‘USB debugging’, and enable it using its toggle button. Accept the warning by tapping on OK.
+Locate ‘Enable OEM Unlock’ and enable this too using its toggle button. Accept the warning by tapping on OK.
+Step 2. Install proper Huawei Nexus 6P drivers.
+
+Step 3. Install ADB and fastboot drivers.
+
+Step 4. Boot Nexus 6P into fastboot/bootloader mode. For this:
+
+Power off your Nexus 6P. Wait for 5-6 seconds after screen goes off.
+Now, press and hold Volume Down + Power button together until you see something on screen, with FASTBOOT written at top. This is fastboot/bootloader mode.
+Step 5. Test whether fastboot is working alright or not.
+
+For this, open a command window and run the command given below. (You can also copy paste the command and then use enter key to run it.)
+
+fastboot devices
+→ Upon running command above, you should get a serial no. with fastboot written after it. If you don’t get fastboot written on cmd window, then it means you need to reinstall adb and fastboot drivers, or change restart PC, or use original USB cable.
+
+Step 6. Unlock Nexus 6P bootloader now.
+
+Run the following command for that.
+
+fastboot oem unlock
+Step 7. Confirm bootloader unlock now on your Nexus 6P.
+
+A screen will show on your Nexus 6P asking for your confirmation to unlock bootloader. Press Volume UP button to accept and confirm. Remember, this WILL DELETE everything on your Nexus 6P.
+
+Unlock Bootloader Nexus 9
+Step 8. Once you have done the above, your Nexus 6P will automatically restart, and when it has, it will be bootloader unlocked.
+
+You can now go ahead and install a TWRP recovery, and then get root access now that fastboot allows you to flash stuff you want.
+
+
+
+
+
+
+
+
+
+
+

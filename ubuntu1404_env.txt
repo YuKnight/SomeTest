@@ -1,0 +1,324 @@
+sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip python-networkx libnss-sss:i386
+
+Android 7.0 (Nougat) – Android 8.0 (Oreo):OpenJDK 8
+Android 5.x (Lollipop) – Android 6.0 (Marshmallow):OpenJDK 7
+//sudo add-apt-repository ppa:openjdk-r/ppa
+//sudo apt-get update
+//sudo apt-get install openjdk-7-jdk
+//sudo apt-get install openjdk-8-jdk
+
+
+https://source.android.com/setup/build/older-versions
+Ubuntu LTS 14.04 (OpenJDK 8)
+1.Download the .deb packages for 64-bit architecture from old-releases.ubuntu.com:
+openjdk-8-jre-headless_8u45-b14-1_amd64.deb with SHA256 0f5aba8db39088283b51e00054813063173a4d8809f70033976f83e214ab56c0
+openjdk-8-jre_8u45-b14-1_amd64.deb with SHA256 9ef76c4562d39432b69baf6c18f199707c5c56a5b4566847df908b7d74e15849
+openjdk-8-jdk_8u45-b14-1_amd64.deb with SHA256 6e47215cf6205aa829e6a0a64985075bd29d1f428a4006a80c9db371c2fc3c4c
+2.Optionally, confirm the checksums of the downloaded files against the SHA256 string listed with each package above. For example, with the sha256sum tool:
+    sha256sum {downloaded.deb file}
+
+3.Install the packages:
+    sudo apt-get update
+
+Run dpkg for each of the .deb files you downloaded. It may produce errors due to missing dependencies:
+    sudo dpkg -i {downloaded.deb file}
+
+To fix missing dependencies:
+    sudo apt-get -f install
+
+4.(Optional) Update the default Java version
+Optionally, for the Ubuntu versions above, update the default Java version by running:
+
+sudo update-alternatives --config java
+sudo update-alternatives --config javac
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+https://blog.csdn.net/Meta_Cpp/article/details/70851397
+Ubuntu 14.04 安装 openjdk 8
+1. 添加ppa
+$sudo add-apt-repository ppa:webupd8team/Java (ORACLE)
+$sudo add-apt-repository ppa:openjdk-r/ppa (OpenJDK)
+
+2. 安装 openjdk-8-jdk
+$sudo apt-get update
+$sudo apt-get install openjdk-8-jdk
+
+3. 只对特定用户user采用java 8
+$sudo update-alternatives --config java  
+选择非1.8
+$sudo update-alternatives --config javac 
+选择非1.8
+
+user@~$ vim .bashrc
+添加:
+#export JAVA_HOME=/usr/lib/jvm/java-8-oracle   (ORACLE)
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64   (OpenJDK)
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+user@~$ source .bashrc
+user@~$ java -version
+openjdk version "1.8.0_111"
+OpenJDK Runtime Environment (build 1.8.0_111-8u111-b14-3~14.04.1-b14)
+OpenJDK 64-Bit Server VM (build 25.111-b14, mixed mode)
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+*******************************************************************************************************
+https://blog.csdn.net/u013403478/article/details/51012113
+在Ubuntu14.04下安装配置openJDK1.7，其实很简单。
+1、Ctrl+Alt+T快捷键打开terminal（终端）
+2、在终端中输入
+       下载jdk：
+       sudo apt-get install openjdk-7-jdk
+      下载完成后，再执行下载jre：
+       sudo apt-get install openjdk-7-jre
+3、之后配置环境变量
+       ubuntu等linux系统配置环境变量是在文件中编辑。
+              （1）若只针对当前用户可使用openJDK，则在你的用户名目录下执行vim .bashrc，即编辑.bash文件，“.”的意思是隐藏文件。
+                      在.bashrc文件中末尾加上类似下面（根据你的openjdk安装目录来写，一般来说openjdk的安装目录没什么区别）的指令来声明全局变量（环境变量就是一种系统全局变量）的 export关键字：
+                                   export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+                                   export JRE_HOME=$JAVA_HOME/jre
+                                   export CLASSPATH=$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
+                                   export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+               保存、退出。重新登录账户。
+                （2）若是要是所有使用你系统的用户都可以使用java，就在/etc/profile文件中添加（1）中的export们。
+               保存、退出。重启系统。
+4、最后检测java是否安装配置成功
+       在terminal终端中输入java -version，查看打印信息：
+        一般成功后打印下面java版本信息：
+                               java version "1.7.0_95"
+                               OpenJDK Runtime Environment (IcedTea 2.6.4) (7u95-2.6.4-0ubuntu0.14.04.2)
+                               OpenJDK 64-Bit Server VM (build 24.95-b01, mixed mode)
+
+5、那么就成功了
+
+注意：
+如果要卸载openjdk,需要把关联包都删除掉（不然重装或装其他jdk时，可能出现配置好了但没法用的情况），使用下面指令：
+          先卸载openjdk:      sudo apt-get remove openjdk-7-jdk   、sudo apt-get remove openjdk-7-jre(由于oracle的openjdk是已经包含openjdk-jre相关文件的，所以只删除jdk也行)
+          再卸载openjdk相关联的包：       sudo apt-get autoremove
+*******************************************************************************************************
+
+
+===========================================================================================================================
+https://blog.csdn.net/chelseablue1905/article/details/72853675
+Ubuntu14.04 安装openjdk7和openjdk8与切换
+1.      安装
+sudo add-apt-repository ppa:openjdk-r/ppa
+sudo apt-get update
+sudo apt-get install openjdk-7-jdk
+sudo apt-get install openjdk-8-jdk
+
+2.      删除软链接
+切换路径到/etc/alternatives
+查看软连接ll java*
+lrwxrwxrwx1 root root 46  6月  3 17:41 java ->/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java*
+lrwxrwxrwx1 root root 56  6月  3 17:41 java.1.gz ->/usr/lib/jvm/java-7-openjdk-amd64/jre/man/man1/java.1.gz
+lrwxrwxrwx1 root root 43  6月  3 17:41 javac -> /usr/lib/jvm/java-7-openjdk-amd64/bin/javac*
+lrwxrwxrwx1 root root 53  6月  3 17:41 javac.1.gz ->/usr/lib/jvm/java-7-openjdk-amd64/man/man1/javac.1.gz
+lrwxrwxrwx1 root root 45  6月  3 17:41 javadoc ->/usr/lib/jvm/java-7-openjdk-amd64/bin/javadoc*
+lrwxrwxrwx1 root root 55  6月  3 17:41 javadoc.1.gz ->/usr/lib/jvm/java-7-openjdk-amd64/man/man1/javadoc.1.gz
+lrwxrwxrwx1 root root 43  6月  3 17:41 javah ->/usr/lib/jvm/java-7-openjdk-amd64/bin/javah*
+lrwxrwxrwx1 root root 53  6月  3 17:41 javah.1.gz -> /usr/lib/jvm/java-7-openjdk-amd64/man/man1/javah.1.gz
+lrwxrwxrwx1 root root 43  6月  3 17:41 javap ->/usr/lib/jvm/java-7-openjdk-amd64/bin/javap*
+lrwxrwxrwx 1 root root 53 6月  3 17:41 javap.1.gz ->/usr/lib/jvm/java-7-openjdk-amd64/man/man1/javap.1.gz
+
+参照此例删除所用的软链接：
+sudo update-alternatives --remove java/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
+sudo update-alternatives --remove java/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+
+3.      添加软链
+sudo update-alternatives --install /usr/bin/jdk jdk/usr/lib/jvm/java-7-openjdk-amd64 1700
+sudo update-alternatives --install /usr/bin/jdk jdk/usr/lib/jvm/java-8-openjdk-amd64 1800
+
+4.      配置环境变量
+打开 ~/.bashrc
+在最底部添加如下内容：
+alias jdk='sudoupdate-alternatives --config jdk'
+export JAVA_HOME=/usr/bin/jdk
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+
+切换完成，可执行echo $JAVA_HOME命令查看当前的JDK版本。
+
+===========================================================================================================================
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+https://blog.csdn.net/haolvshiqi/article/details/53489341
+ubuntu14.04安装OpenJDK1.8 
+1、sudo add-apt-repository ppa:openjdk-r/ppa
+2、sudo apt-get update
+3、sudo apt-get install openjdk-8-jdk
+4、执行：sudo update-alternatives -–config java，选择java的版本
+5、执行：sudo update-alternatives -–config javac，选择javac的版本
+如果这样还是不行，那么去改改/etc/profile这个文件试试。
+done～
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+**************************************************************************************************************************************
+ubuntu 删除 office:
+sudo apt-get remove --purge libreoffice*
+sudo apt-get clean
+sudo apt-get autoremove
+Ubuntu中在当前目录下打开终端:
+sudo apt-get install nautilus-open-terminal
+nautilus -q
+
+
+sudo add-apt-repository ppa:openjdk-r/ppa
+sudo apt-get update
+sudo apt-get install openjdk-8-jdk
+sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip python-networkx libnss-sss:i386
+
+
+1，用以下命令安装最新版本的Wine。也可以直接在ubuntu软件中心搜索安装wine，不过一般不是最新的。
+sudo add-apt-repository ppa:ubuntu-wine/ppa
+sudo apt-get update
+sudo apt-get install wine1.7
+
+（安装意外终止时再次安装会提示出错，sudo dpkg --configure -a）
+
+/// 安装 wine 
+Ubuntu 14.04/14.10 及衍生系统用户安装，有PPA可用，打开终端，输入以下命令：
+sudo add-apt-repository ppa:ubuntu-wine/ppa
+sudo apt-get update
+sudo apt-get install wine1.7 winetricks
+安装完成后，用winetricks配置wine:
+winetricks corefonts
+卸载 Wine 命令：
+sudo apt-get remove wine1.7 winetricks
+
+
+https://wiki.ubuntu.com/Ubuntu_14.04_LTS
+sudo apt-get install wine
+注意中间会卡住让你选择，千万不要直接关闭，按键盘上下左右键可以选择到OK，然后按enter键继续下载
+wine xxxx.exe安装某些软件
+wine soureceinsight4096-setup.exe
+
+Ubuntu下，通过Wine安装Source Insight 
+https://blog.csdn.net/kunkliu/article/details/78360816
+转载地址：http://blog.sina.com.cn/s/blog_dc606ffa0101jew2.html
+
+先安装Wine的最新版本。
+用快捷键（Ctrl+Alt+T）打开终端，输入如下的命令：
+$ sudo add-apt-repositoryppa:ubuntu-wine/ppa
+$sudo apt-get update
+$ sudo apt-get install wine 
+说明：
+加上第一条命令，能将Wine升级到最新（1.4或1.5）；
+可以用命令wine --version查看版本号！
+
+然后，通过Wine安装Source Insight。
+将安装文件（Si35Setup.exe）复制到Ubuntu下；
+然后，在终端里执行如下的命令：
+$ sudo wine Si35Setup.exe
+说明：
+如果安装过程中，缺少mfc42.dll之类的，
+需要复制这些文件到~/.wine/drive_c/windows/system32/路径下！
+经过我的测试，发现从网上下载的版本才好用！ 我这里给个下载地址：
+(http://pan.baidu.com/share/link?shareid=3553699851&uk=2147770900)
+安装完成后，在~下，按Ctrl+h（Hide）能显示隐藏的文件夹（.wine）；
+路径（~/.wine/drive_c/Program Files）下会多出一个文件夹（Source Insight 3）；
+进入该文件夹，使用命令wine Insight3.exe，便可以启动SourceInsight！
+方便起见，可以创建Insight3.exe的快捷方式（si.exe）到c:/windows/system32；
+然后，在命令终端的任何目录下，都可以用命令wine si启动了！
+
+然后，配置Wine的环境：
+$winecfg
+在弹出的配置窗口中，选择Drivers，
+然后Add个D盘，路径为/home/gaojs，然后Apply！
+
+然后，创建个文件夹（si），并设置其属性：
+$ mkdir si
+$ chmod 777 si
+然后，就可以将si的工程，都保持这个目录了。
+
+另外：
+通过Wine卸载程序：
+wine uninstaller
+终止Wine：
+wineserver -k
+
+
+启动脚本 
+#!/bin/bash
+
+#echo "test"
+#wine ~/.wine/drive_c/Program Files (x86)/Source Insight 3/Insight3.exe
+wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Source\ Insight\ 3/Insight3.exe
+
+sourceinsight 3.5 激活码
+SI3US-205035-36448
+SI3US-466908-65897
+SI3US-368932-59383
+SI3US-065458-30661
+SI3US-759512-70207
+
+**************************************************************************************************************************************
+
+
+==========================================================================================================================================
+https://mp.weixin.qq.com/s?__biz=MzI3OTU0MzI4MQ==&mid=2247484088&idx=1&sn=b26fe1ab62a5883fa007d1ba7976a825&chksm=eb476e26dc30e730ea392e418ad994c0074768225acac071ebb71fb7ad60cad02cd02d0bc546&scene=21#wechat_redirect
+
+ubuntu KVM
+首先我们检测下自己的cpu是否支持 hardware virtualization（硬件虚拟化）
+egrep -c '(vmx|svm)' /proc/cpuinfo
+输出的值如果是大于0的，则表明你的cpu支持
+
+如果你使用的是vmware虚拟机安装的linux，注意要设置下虚拟机的cpu来支持硬件虚拟化，先关闭虚拟机，然后右键虚拟机=》设置，选中cpu，勾选虚拟化Intel VT项，这样就能支持KVM了。
+
+对于Ubuntu 10.0.4以上的版本，我们通过下面的指令安装KVM即可
+sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+如果在安装KVM的过程中有什么疑问的话，可以访问下面这个网址查找方法：https://help.ubuntu.com/community/KVM/Installation
+
+这样，在编译完目标intel cpu的镜像文件后，我们运行模拟器就会自动进行加速了。
+
+
+==========================================================================================================================================
+
+
+
+***************************************************************************************************************************************************
+https://www.crifan.com/vmware_workstation_ubuntu_file_folder_share/
+ubuntu 共享文件夹 
+
+安装 vmware-tools
+
+安装VMwareTool时说和open-vm-tools冲突了要移除open-vm-tools 
+sudo apt-get autoremove open-vm-tools --purge
+
+vmware菜单中选择重新安装  并把安装包 VMwareTools-10.3.2-9925305.tar.gz 拷贝到 /tmp 目录下 (https://bbs.csdn.net/topics/392171650)
+knht@ubuntu:/tmp$ sudo tar zxf VMwareTools-10.3.2-9925305.tar.gz
+knht@ubuntu:/tmp$ cd /tmp/vmware-tools-distrib/
+knht@ubuntu:/tmp$ sudo ./vmware-install.pl
+安装过程中一直按enter即可，或者输入【】提示yes和no，直到安装完毕。
+
+
+选择 虚拟机（M）--->设置--->选项--->共享文件夹，右边选择总是启用，再添加，浏览到刚刚新建的那个文件夹--->确定。。。。到这里设置完了共享文件夹。下一步在Ubuntu中找到它。
+打开控制台，输入：cd /mnt/+两次tab，你会发现成功进入到刚刚Windows建立的文件夹下，测试文件共享。。。
+
+启动Ubuntun后，在终端输入：
+$ vmware-hgfsclient WinLinShare
+此命令会输出共享文件夹的名字。此文件夹默认在目录：
+/mnt/hgfs/文件夹名
+
+
+
+
+*******************************************************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
