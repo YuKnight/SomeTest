@@ -29,9 +29,9 @@ E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin>arachni http://192.168.50.219
 E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin>arachni_reporter "E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin\192.168.50.219 2019-07-04 13_11_20 +0800.afr"--reporter=html:outfile=mscan_all.html.zip
 
 
+arachni https://www.nesun.cn --report-save-path=E:\arachni_out\nesun.cn.20191019.afr --timeout 00:02:00
 
-
-
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin>arachni https://www.nesun.cn --report-save-path=E:\arachni_out\nesun.cn.20191019.afr --timeout 00:02:00
 
 
 

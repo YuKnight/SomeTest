@@ -1,0 +1,247 @@
+延时型SQL盲注                        :sql_injection_timing                                                              :High
+布尔型SQL盲注漏洞                    : ??? sql_injection_differential ???                                               :High
+SQL注入漏洞                          :sql_injection                                                                     :High
+XML实体注入漏洞                      :xxe                                                                               :High
+XSS漏洞（script context）            :xss_script_context                                                                :High
+DOM型XSS漏洞（script context）       :xss_dom_script_context                                                            :High
+HTML属性XSS漏洞                      :xss_event                                                                         :High
+XSS漏洞                              :xss                                                                               :High
+DOM型XSS漏洞                         :xss_dom                                                                           :High
+XSS漏洞（path）                      :xss_path                                                                          :High
+HTML标签XSS漏洞                      :xss_tag                                                                           :High
+文件上传漏洞                         :form_upload / http_put                                                            :Informational / High
+文件下载漏洞                         :                                                                                  :
+目录遍历漏洞                         :path_traversal / directory_listing                                                :High / Low
+不安全的HTTP方法                     :allowed_methods(发现以下URL主机允许使用HEAD, TRACE, OPTIONS等不安全的HTTP请求方法):Informational
+备份文件检测                         :backup_files                                                                      :Medium
+后门木马检测                         :backdoors                                                                         :High
+时间型系统命令执行漏洞               :os_cmd_injection_timing                                                           :High
+系统命令执行漏洞                     :os_cmd_injection                                                                  :High
+本地文件包含漏洞                     :file_inclusion                                                                    :High
+代码执行漏洞                         :code_injection                                                                    :High
+代码执行漏洞 (timing)                :code_injection_timing                                                             :High
+服务器端Banner泄漏                   :                                                                                  :
+服务器端口检测                       :                                                                                  :
+CSRF漏洞(Cross-Site Request Forgery) :csrf                                                                              :High
+FTP弱口令检测                        :                                                                                  :
+IMAP弱口令检测                       :                                                                                  :
+MSSQL弱口令检测                      :                                                                                  :
+MYSQL弱口令检测                      :                                                                                  :
+POP3弱口令检测                       :                                                                                  :
+RDP弱口令检测                        :                                                                                  :
+SSH弱口令检测                        :                                                                                  :
+SVN弱口令检测                        :cvs_svn_users                                                                     :Low
+VNC弱口令检测                        :                                                                                  :
+常见文件安全检测                     :common_files                                                                      :Low
+常见后台检测                         :common_admin_interfaces                                                           :Low
+备份目录检测                         :backup_directories                                                                :Medium
+版本控制信息泄漏                     :                                                                                  :
+源代码暴露                           :source_code_disclosure                                                            :High
+								       																				    :
+私有IP地址暴露                       :private_ip                                                                        :Low
+邮箱地址暴露                         :emails                                                                            :Informational
+传输协议分析                         :                                                                                  :
+
+
+////////////////////////////////////////////////////////////////////
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin\
+
+arachni --output-verbose --scope-include-subdomains https://192.168.51.207/ --checks=sql_injection_timing
+直接在命令行中输出 
+
+
+arachni https://192.168.51.207/ --checks=sql_injection_timing --report-save-path=E:/example.com.afr
+arachni https://192.168.51.207/ --checks=sql_injection_timing,sql_injection_differential,sql_injection --report-save-path=E:/example.com.afr
+
+只是用特定个数的 phantomjs 默认是 6 
+--browser-cluster-pool-size
+arachni https://192.168.51.207/ --checks=sql_injection_timing,sql_injection_differential,sql_injection --browser-cluster-pool-size=2 --report-save-path=E:/example.com.afr
+arachni https://192.168.51.207/ --checks=sql_injection_timing,sql_injection_differential,sql_injection --browser-cluster-pool-size=2 --browser-cluster-job-timeout=8 --report-save-path=E:/example.com.afr
+
+
+arachni http://192.168.50.219 --plugin=autologin:url=http://192.168.50.219/mare/index.php/mare/login/login_user.html,parameters="username=marsamds&password=Neun@2019",check="success" --checks=sql_injection_timing,sql_injection_differential,sql_injection --browser-cluster-pool-size=2 --report-save-path=E:/192.168.50.219.mscan.login.afr > E:/arachni_out/192.168.50.219.all.log
+
+// 全部扫描 
+arachni http://192.168.50.219 --plugin=autologin:url=http://192.168.50.219/mare/index.php/mare/login/login_user.html,parameters="username=marsamds&password=Neun@2019",check="success" --report-save-path=E:/arachni_out/192.168.50.219.mscan.login.afr > E:/arachni_out/192.168.50.219.all.log
+
+arachni http://192.168.51.207 --plugin=autologin:url=http://192.168.51.207/mare/index.php/mare/login/login_user.html,parameters="username=marsamds&password=Neun@2019",check="success" --report-save-path=E:/arachni_out/192.168.51.207.all.afr > E:/arachni_out/192.168.51.207.all.log
+
+
+arachni http://192.168.50.219 --checks=sql_injection_timing --report-save-path=E:/example.com.afr
+arachni http://192.168.51.207 --checks=sql_injection_timing --report-save-path=E:/example.com.afr
+
+arachni http://192.168.51.207 --report-save-path=./192.168.51.207.afr > ./192.168.51.207.log
+
+arachni http://192.168.51.207 --checks=sql_injection_timing --report-save-path=E:/arachni_out/192.168.51.207.afr
+arachni http://192.168.51.207 --report-save-path=E:/arachni_out/192.168.51.207.all.afr > E:/arachni_out/192.168.51.207.all.log
+arachni http://192.168.51.207 --checks=sql_injection_timing --report-save-path=E:/arachni_out/192.168.51.207.afr > E:/arachni_out/192.168.51.207.log
+arachni http://192.168.51.207 --checks=sql_injection_timing --browser-cluster-pool-size=2 --audit-links --report-save-path=E:/arachni_out/192.168.51.207_1.afr > E:/arachni_out/192.168.51.207_1.log
+
+
+arachni http://192.168.50.219 --checks=sql_injection_timing --report-save-path=E:/arachni_out/192.168.50.219.afr > E:/arachni_out/192.168.50.219.log
+arachni http://192.168.50.219 --report-save-path=E:/arachni_out/192.168.50.219.afr > E:/arachni_out/192.168.50.219.log
+arachni http://192.168.50.219 --checks=sql_injection_timing --audit-links --report-save-path=E:/arachni_out/192.168.50.219.afr > E:/arachni_out/192.168.50.219.log
+arachni http://192.168.50.219 --checks=sql_injection_timing --browser-cluster-pool-size=2 --audit-links --report-save-path=E:/arachni_out/192.168.50.219.afr > E:/arachni_out/192.168.50.219.log
+
+
+arachni http://192.168.50.219 --checks=sql_injection_timing --browser-cluster-pool-size=2 --audit-links --report-save-path=E:/arachni_out/192.168.50.219.afr > E:/arachni_out/192.168.50.219.log
+
+--browser-cluster-ignore-images 
+
+arachni https://www.nesun.cn --checks=sql_injection_timing --browser-cluster-pool-size=2 --audit-links --report-save-path=E:/arachni_out/nesun.cn.afr > E:/arachni_out/nesun.cn.log
+
+arachni https://www.nesun.cn --report-save-path=E:/arachni_out/nesun.cn.afr > E:/arachni_out/nesun.cn.log
+arachni https://www.nesun.cn --report-save-path=./nesun.cn.afr > ./nesun.cn.log
+
+
+
+指定扫描运行的时间 --timeout (hours:minutes:seconds) 4分50秒  
+arachni http://192.168.50.219 --checks=sql_injection_timing --timeout=00:04:50 --report-save-path=E:/arachni_out/192.168.50.219_timeout.afr > E:/arachni_out/192.168.50.219_timeout.log
+
+
+arachni http://192.168.51.212:8088/mscan --report-save-path=E:/arachni_out/192.168.51.212.afr > E:/arachni_out/192.168.51.212.log
+arachni_reporter E:/arachni_out/192.168.51.212.afr --reporter=json:outfile=E:/arachni_out/192.168.51.212.json
+
+
+// 登录后扫描 
+arachni http://192.168.51.212:8088/mscan --plugin=autologin:url=http://192.168.51.212:8088/mscan/#/login,parameters="username=admin&password=888888",check="success" --report-save-path=E:/arachni_out/192.168.51.212.login1.afr > E:/arachni_out/192.168.51.212.login1.log
+arachni_reporter E:/arachni_out/192.168.51.212.login1.afr --reporter=json:outfile=E:/arachni_out/192.168.51.212.login1.json
+
+
+
+arachni http://192.168.51.212:9000/mscan/ --plugin=autologin:url=http://192.168.51.212:9000/mscan/#/login,parameters="username=admin&password=esLeToRdPd086zCWlyXn5Q==&captcha=11111&t=1568688727001&uuid=da54a67b-d78b-4530-8d3a-3dd26e08c01b",check="*success*" --report-save-path=E:/arachni_out/192.168.51.212.login1.afr > E:/arachni_out/192.168.51.212.login1.log
+// 按照表单填写 并非按照发包填写  !!!   
+arachni http://192.168.51.212:9000/mscan/ --plugin=autologin:url=http://192.168.51.212:9000/mscan/#/login,parameters="username=admin&password=888888&captcha=11111",check="*success*" --report-save-path=E:/arachni_out/192.168.51.212.login1.afr > E:/arachni_out/192.168.51.212.login1.log
+arachni http://192.168.51.212:9000/mscan/ --plugin=autologin:url=http://192.168.51.212:9000/mscan/#/login,parameters="username=admin&password=888888&captcha=11111",check="success" --report-save-path=E:/arachni_out/192.168.51.212.login1.afr > E:/arachni_out/192.168.51.212.login1.log
+
+
+http://192.168.51.212:9000/mscan/#/task-list
+arachni http://192.168.51.212:9000/mscan/ --plugin=autologin:url=http://192.168.51.212:9000/mscan/#/login,parameters="username=admin&password=888888&captcha=11111",check="success" --scope-exclude-pattern=logout --report-save-path=E:/arachni_out/192.168.51.212.login1.afr > E:/arachni_out/192.168.51.212.login1.log
+arachni http://192.168.51.212:9000/mscan/ --plugin=autologin:url=http://192.168.51.212:9000/mscan/#/login,parameters="username=admin&password=888888&captcha=11111",check="*success" --scope-exclude-pattern=logout --report-save-path=E:/arachni_out/192.168.51.212.login1.afr > E:/arachni_out/192.168.51.212.login1.log
+
+arachni http://192.168.51.212:9000/mscan/ --plugin=autologin:url=http://192.168.51.212:9000/mscan/#/login,parameters="text=admin&password=888888&captcha=11111",check="success" --scope-exclude-pattern=logout --report-save-path=E:/arachni_out/192.168.51.212.login1.afr
+arachni http://192.168.51.212:9000/mscan/ --plugin=autologin:url=http://192.168.51.212:9000/mscan/#/login,parameters="text=admin&password=888888&text=11111",check="success" --scope-exclude-pattern=logout --report-save-path=E:/arachni_out/192.168.51.212.login1.afr
+
+arachni_reporter E:/arachni_out/192.168.51.212.login1.afr --reporter=json:outfile=E:/arachni_out/192.168.51.212.login1.json
+
+
+arachni_reporter E:/Web扫描部分/nesun.cn.afr --reporter=json:outfile=E:/Web扫描部分/nesun.cn.json
+arachni_reporter E:/Web扫描部分/nesun.cn.afr --reporter=html:outfile=E:/Web扫描部分/nesun.cn.html.zip
+
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin\arachni_reporter E:/Web扫描部分/nesun.cn.afr --reporter=json:outfile=E:/Web扫描部分/nesun.cn.json
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin\arachni_reporter E:/arachni_out/192.168.51.212.mscan.afr --reporter=json:outfile=E:/arachni_out/192.168.51.212.mscan.json
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin\arachni_reporter E:/arachni_out/192.168.51.212.mscan.afr --reporter=html:outfile=E:/arachni_out/192.168.51.212.mscan.html.zip
+
+// http://192.168.51.217/mscan/
+
+
+// https://192.168.51.207/mare/index.php/mare/login/login_user.html
+marsamds
+Nesun!@#sc
+arachni https://192.168.51.207 --plugin=autologin:url=https://192.168.51.207/mare/index.php/mare/login/login_user.html,parameters="username=marsamds&password=Nesun!@#sc",check="success" --scope-exclude-pattern=logout --report-save-path=E:/arachni_out/192.168.51.207.login1.afr > E:/arachni_out/192.168.51.207.login1.log
+
+
+
+// http://192.168.51.212:9000/mscan
+arachni http://192.168.51.212:9000/mscan --report-save-path=E:/arachni_out/192.168.51.212_sql.afr > E:/arachni_out/192.168.51.212_sql.log
+arachni_reporter E:/arachni_out/192.168.51.212_sql.afr --reporter=html:outfile=E:/arachni_out/192.168.51.212_sql.html.zip
+
+
+
+// 邮件服务器 http://mail.nesun.cn/ 
+arachni http://mail.nesun.cn/ --report-save-path=E:/arachni_out/mail.nesun.cn.afr > E:/arachni_out/mail.nesun.cn.log
+arachni_reporter E:/arachni_out/mail.nesun.cn.afr --reporter=html:outfile=E:/arachni_out/mail.nesun.cn.html.zip
+arachni_reporter E:/arachni_out/mail.nesun.cn.afr --reporter=json:outfile=E:/arachni_out/mail.nesun.cn.json
+
+
+
+
+
+
+
+////////////////////////////////////////////////// 靶场 
+http://192.168.99.100:8080/sqli_15.php
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin
+
+arachni http://192.168.99.100:8080/sqli_15.php --report-save-path=E:/arachni_out/192.168.99.100.afr > E:/arachni_out/192.168.99.100.log
+
+arachni_reporter E:/arachni_out/192.168.99.100.afr --reporter=json:outfile=E:/arachni_out/192.168.99.100.json
+arachni_reporter E:/arachni_out/192.168.99.100.afr --reporter=html:outfile=E:/arachni_out/192.168.99.100.html.zip
+
+
+//  OWASP Mutillidae II
+http://192.168.99.100:8081/index.php?page=login.php
+http://192.168.99.100:8081/index.php?page=add-to-your-blog.php
+arachni http://192.168.99.100:8081/index.php?page=add-to-your-blog.php --report-save-path=E:/arachni_out/Mutillidae.afr > E:/arachni_out/Mutillidae.log
+
+
+http://192.168.99.100:8081/index.php?page=login.php
+arachni http://192.168.99.100:8081/index.php?page=login.php --report-save-path=E:/arachni_out/Mutillidae.afr > E:/arachni_out/Mutillidae.log
+
+
+
+
+// dvwa 
+http://192.168.99.100:8083/vulnerabilities/sqli_blind/
+arachni http://192.168.99.100:8083/vulnerabilities/sqli_blind/ --report-save-path=E:/arachni_out/dvwa.afr > E:/arachni_out/dvwa.log
+
+http://192.168.99.100:8083/vulnerabilities/sqli_blind/?id=rwerw&Submit=Submit&user_token=274072e2f1f544cb8757d18e3729d3c0#
+arachni http://192.168.99.100:8083/vulnerabilities/sqli_blind/?id=rwerw&Submit=Submit&user_token=274072e2f1f544cb8757d18e3729d3c0# --report-save-path=E:/arachni_out/dvwa1.afr > E:/arachni_out/dvwa1.log
+
+arachni_reporter E:/arachni_out/dvwa.afr --reporter=json:outfile=E:/arachni_out/dvwa.json
+arachni_reporter E:/arachni_out/dvwa.afr --reporter=html:outfile=E:/arachni_out/dvwa.html.zip
+
+
+http://192.168.99.100:8083/dvwa/vulnerabilities/sqli/              http://192.168.99.100:8083/vulnerabilities/sqli/  
+arachni hhttp://192.168.99.100:8083/vulnerabilities/sqli/ --report-save-path=E:/arachni_out/dvwa_sql.afr > E:/arachni_out/dvwa_sql.log
+
+// http://219.153.49.228:49437/
+arachni http://219.153.49.228:49437/ --report-save-path=E:/arachni_out/219.153.49.228.afr > E:/arachni_out/219.153.49.228.log
+arachni_reporter E:/arachni_out/219.153.49.228.afr --reporter=html:outfile=E:/arachni_out/219.153.49.228.html.zip
+
+
+
+// VulApp 
+http://192.168.99.100:8084
+
+
+
+
+//////////////////////////////////////////////////
+
+
+
+
+
+
+
+转换报告类型
+arachni_reporter E:/example.com.afr --reporter=html:outfile=E:/my_example_com_report.html.zip
+arachni_reporter E:/arachni_out/192.168.50.219.afr --reporter=html:outfile=E:/arachni_out/192.168.50.219.html.zip
+
+arachni_reporter E:/arachni_out/192.168.50.219.afr --reporter=json:outfile=E:/arachni_out/192.168.50.219.html.json
+arachni_reporter E:/arachni_out/192.168.50.219.afr --reporter=txt:outfile=E:/arachni_out/192.168.50.219.html.txt
+arachni_reporter E:/arachni_out/192.168.50.219.afr --reporter=xml:outfile=E:/arachni_out/192.168.50.219.html.xml
+
+arachni_reporter E:/arachni_out/192.168.51.207_1.afr --reporter=json:outfile=E:/arachni_out/192.168.51.207_1.json
+
+arachni_reporter E:/arachni_out/192.168.50.219_timeout.afr --reporter=json:outfile=E:/arachni_out/192.168.50.219_timeout.json
+
+arachni_reporter E:/Web扫描部分/bin/192.168.50.219.mscan.login.afr --reporter=json:outfile=E:/Web扫描部分/bin/192.168.50.219.mscan.login.json
+arachni_reporter E:/Web扫描部分/bin/192.168.50.219.mscan.login.afr --reporter=html:outfile=E:/Web扫描部分/bin/192.168.50.219.mscan.login.html.zip
+
+****************************************************************************************************
+登录
+Excluding the logout URL and running the `autologin1 plugin to automatically login to a web application:
+arachni http://testfire.net --scope-page-limit=1 --checks=xss \
+    --plugin=autologin:url=http://testfire.net/bank/login.aspx,parameters='uid=jsmith&passw=Demo1234',check='Sign Off|MY ACCOUNT' \
+    --scope-exclude-pattern logout
+	
+	
+登录后进行扫描：
+E:\downs_0\arachni-1.5.1-0.5.12-windows-x86_64\bin>arachni http://192.168.50.219
+ --plugin=autologin:url=http://192.168.50.219/mare/index.php/mare/login/login_us
+er.html,parameters="username=marsamds&password=Neun@2019",check="success" --scop
+e-exclude-pattern=logout
+
+其中 check="success" 需要去寻找登录成功时返回的提示信息 !!! 
