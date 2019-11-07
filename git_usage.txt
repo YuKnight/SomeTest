@@ -1,0 +1,268 @@
+
+
+
+git usage:
+
+从远程获取最新版本到本地 不会自动merge
+git fetch origin master
+
+
+
+
+
+-------------------> 从master分支拉取代码到本地 <-------------------
+DESKTOP-6976CHD MINGW64 /d
+$ git clone https://github.com/YuKnight/SomeTest.git
+Cloning into 'SomeTest'...
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 5 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (5/5), done.
+
+DESKTOP-6976CHD MINGW64 /d
+$ git status
+fatal: not a git repository (or any of the parent directories): .git
+
+DESKTOP-6976CHD MINGW64 /d
+$ cd SomeTest/
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        androguard_usage.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git add androguard_usage.txt
+warning: CRLF will be replaced by LF in androguard_usage.txt.
+The file will have its original line endings in your working directory
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git commit -m "add test file"
+[master c3f1d19] add test file
+ 1 file changed, 271 insertions(+)
+ create mode 100644 androguard_usage.txt
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git push origin master
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 2.45 KiB | 836.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/YuKnight/SomeTest.git
+   db0779c..c3f1d19  master -> master
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git branch -v
+* master c3f1d19 add test file
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master) -------------------> 在本地创建 develop_1 分支 <-------------------
+$ git branch develop_1
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master) -------------------> 在切换到本地的 develop_1 分支 <-------------------
+$ git checkout develop_1
+Switched to branch 'develop_1'
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git status
+On branch develop_1
+nothing to commit, working tree clean
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1) -------------------> 在修改 develop_1 分支中的文件 <-------------------
+$ git status
+On branch develop_1
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   androguard_usage.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git difftool
+warning: CRLF will be replaced by LF in androguard_usage.txt.
+The file will have its original line endings in your working directory
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1) -------------------> 把 develop_1 分支合并到master分支 :先切换到master分支 <-------------------
+$ git checkout master
+Switched to branch 'master'
+M       androguard_usage.txt
+Your branch is up to date with 'origin/master'.
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git merge develop_1
+Already up to date.
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   androguard_usage.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git difftool
+warning: CRLF will be replaced by LF in androguard_usage.txt.
+The file will have its original line endings in your working directory
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git add androguard_usage.txt
+warning: CRLF will be replaced by LF in androguard_usage.txt.
+The file will have its original line endings in your working directory
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git commit -m "notes"
+[master 498295c] notes
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git merge develop_1
+Already up to date.
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git push origin master
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 320 bytes | 320.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/YuKnight/SomeTest.git
+   c3f1d19..498295c  master -> master
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master) -------------------> 因为合并之前没有提交 develop_1 到本地仓库 所以此时的 develop_1 分支中的代码是旧的 <-------------------
+$ git checkout develop_1
+Switched to branch 'develop_1'
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git status
+On branch develop_1
+nothing to commit, working tree clean
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git log
+commit c3f1d1917f0579be6f5e7fa3a9e3f21db814911f (HEAD -> develop_1)
+Author: knht <knht@example.com>
+Date:   Thu Jul 25 09:50:22 2019 +0800
+
+    add test file
+
+commit db0779c78e3491a0736bcdfef24c8f71941fcabc
+Author: YuKnight <37171105+YuKnight@users.noreply.github.com>
+Date:   Thu Jul 25 09:42:46 2019 +0800
+
+    Initial commit
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git status
+On branch develop_1
+nothing to commit, working tree clean
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git difftool
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git fetch origin master:develop_1
+fatal: Refusing to fetch into current branch refs/heads/develop_1 of non-bare repository
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git branch
+* develop_1
+  master
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git status
+On branch develop_1
+nothing to commit, working tree clean
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1) -------------------> 更新 develop_1 分支的代码 <-------------------
+$ git fetch origin master
+From https://github.com/YuKnight/SomeTest
+ * branch            master     -> FETCH_HEAD
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git branch
+* develop_1
+  master
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git merge origin/master
+Updating c3f1d19..498295c
+Fast-forward
+ androguard_usage.txt | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git status
+On branch develop_1
+nothing to commit, working tree clean
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------> 从master分支更新最新的代码到本地 <-------------------
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git fetch origin master
+From https://github.com/YuKnight/SomeTest
+ * branch            master     -> FETCH_HEAD
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git branch
+* develop_1
+  master
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git merge origin/master
+Updating c3f1d19..498295c
+Fast-forward
+ androguard_usage.txt | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+DESKTOP-6976CHD MINGW64 /d/SomeTest (develop_1)
+$ git status
+On branch develop_1
+nothing to commit, working tree clean
+
+
+
+
+
+
+
+
+
+
+
+
+
+
