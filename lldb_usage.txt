@@ -1,0 +1,71 @@
+
+
+下断点
+(lldb) b 0xf3a16510
+
+
+查看当前汇编代码
+(lldb) disassemble --pc
+libFShell.so`ArtLoader::loadFromMemory_9:
+->  0xdb3ead4e <+738>: ldr    r0, [sp, #0xf4]
+    0xdb3ead50 <+740>: ldr    r1, [sp, #0xf0]
+
+
+
+单步步过
+(lldb) n
+
+单步步入
+(lldb) s
+(lldb) si // 进入无源码函数
+
+查看寄存器的值
+(lldb) register read sp
+      sp = 0xffdcc4c8
+(lldb) register read r0
+      r0 = 0xf58b4000
+
+(lldb) register read --all // 查看所有寄存器的值
+
+查看当前局部变量 有源码情况下可以看
+(lldb) frame variable
+(const u1 *) pDex = 0xf58b4000 "dex\n035"
+(u4) len = 1780
+
+
+
+查看内存
+(lldb) memory read/4xw 0xffdcc4c8 -c 16
+0xffdcc4c8: 0xf372948e 0x00000001 0xf58b4400 0x00000400
+0xffdcc4d8: 0x00000400 0xffdcc51c 0xebe3c3e0 0xebe05700
+0xffdcc4e8: 0xdb3922d8 0xffdcca18 0xffdcca14 0x00000000
+0xffdcc4f8: 0xf58b46f4 0x00000000 0xf58b4000 0xebe3c3e0
+
+
+
+
+继续运行 
+(lldb) run
+
+
+
+打印当前栈帧
+(lldb) frame info
+frame #0: 0xdb36e310 libFShell.so`ArtLoader::loadFromMemory(pDex="dex\n035", len=1780) at ArtLoader.cpp:238
+
+
+查看线程信息
+(lldb) thread list
+Process 6584 stopped
+* thread #1: tid = 6584, 0xdb36e310 libFShell.so`ArtLoader::loadFromMemory(pDex="dex\n035", len=1780) at ArtLoader.cpp:238, name = 'f8left.shell', stop reason = breakpoint 14.1
+  thread #2: tid = 6589, 0xf4ce0d3c libc.so`syscall + 28, name = 'Jit thread pool'
+  thread #3: tid = 6590, 0xf4d1ac50 libc.so`__rt_sigtimedwait + 12, name = 'Signal Catcher'
+  thread #4: tid = 6591, 0xf4d1aaf4 libc.so`__ppoll + 16, name = 'ADB-JDWP Connec'
+  
+切换到第一个线程
+(lldb) t 1
+
+
+
+
+

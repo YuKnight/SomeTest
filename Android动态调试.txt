@@ -1,0 +1,119 @@
+
+Android动态调试 
+
+0.修改selinux的权限
+getenforce 查看selinux属性
+执行setenforce 0,执行成功的话会变为Permissive
+
+1.启动 android_server
+
+2.进行端口转发
+adb forward tcp:23946 tcp:23946 
+
+3.debug模式启动app  packagename/activityname  这时手机会提示 waiting for debugger....
+adb shell am start -D -n com.game.game2048/com.game.game2048.MainActivity
+adb shell am start -D -n marvelous.magic/io.virtualapp.home.HomeActivity
+adb shell am start -D -n f8left.shell/f8left.shell.MainActivity
+
+4.打开IDA，选择Go->选择Debugger->选择Attach->选择Remote ARMLinux/Android debugger->弹出弹窗，
+// 记录com.game.game2048的ID，在这里我的是27191（每次都是不一样的，一定要记住哈） 后面的一个命令需要用到 进程ID
+Host 里面填写 127.0.0.1 或者 localhost 
+Port 里面默认值 23946 不用管
+Password 留空
+点击 Debug options 勾选 
+Events:
+//Suspend on debugging start 
+Suspend on process entry point 
+Suspend on thread start/exit 
+Suspend on library load/unload 
+
+Loggine:
+Thread start/exit
+Library load/unload
+Debugging message 
+
+Options:
+Use hardware temporary breakpoints
+
+配置好之后在弹出的进程选择框中选择要调试的进程并继续
+// 坑：ida 不出进程列表，或者很少
+// 解决：检查 android_server 是否与当前使用的ida版本匹配，android_server 是否拥有root权限，一定记得先su一下
+
+
+
+5.另开命令提示符，进行端口转接，8700端口为调试端口。去ddms中查看调试app的端口 
+用 forward jdwp:<pid> 端口映射信息来连接指定的JDWP进程
+
+adb forward tcp:8700 jdwp:27191 // 27191 为待调试app的进程ID
+jdb -connect com.sun.jdi.SocketAttach:hostname=localhost,port=8700
+jdb -connect com.sun.jdi.SocketAttach:hostname=127.0.0.1,port=8604
+
+adb forward tcp:8700 jdwp:3290 // 解决无法附加
+jdb -connect com.sun.jdi.SocketAttach:hostname=localhost,port=8700
+
+6.attach 上之后
+点击菜单Debugger->Debugger Opitions 在弹出的Debugger setup窗口的Events中选择 Suspend on Process entry和Suspend on thread start/exit 以及 Suspend on library load/unload，再点击OK退出。通过此操作可以设置程序在创建新线程和加载so时自动中断
+
+对 initarray 下断
+
+点击F9继续运行 “waiting for debugger"提示会自动消失
+
+
+ida调试安卓应用刚开始的那些坑
+https://www.pd521.com/thread-1232-1-1.html
+
+ida动态调试.so文件（附：动态调试中常见问题及解析）
+https://blog.csdn.net/weixin_38244174/article/details/83070599
+
+[求助]IDA6.5 在apk执行前动态调试so 的问题
+https://bbs.pediy.com/thread-196189.htm
+
+
+坑: 
+致命错误:
+无法附加到目标 VM。
+解决:
+如果能在ddms中看到相应待调试的进程则可是使用下面方法解决 
+
+1. adb forward tcp:8700 jdwp:3290 // 3290 为待调试app的进程ID
+2.在 jdb connect 之后再让进程继续运行 
+在点击 F9 之前 输出会卡住 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+IDA 调试android
+https://www.jianshu.com/p/d94d174b0c8f
+
+IDA调试android so的.init_array数组
+https://www.cnblogs.com/bingghost/p/6297325.html
+
+
+
+在android4.4.4_r1源码中，linker中 .init 和.init_array的断点位置为0000274C,JNI_OnLoad的断点位置为00050004
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+// hex(0x75A4396C-0x75a3b000)  0x896c
+
+
+======================================================================================================
+initarray 断点 // IDA调试android so的.init_array数组 (https://www.cnblogs.com/bingghost/p/6297325.html)
+把调试机器中的linker拷贝出来, 路径为/system/bin/linker, 然后开一个IDA分析
+1. 定位调试进程中linker的dlopen函数地址
+查找字符串 "dlopen failed" 在找到的函数下断 (记录偏移地址 与调试中的linker基地址相加)
+
+2. 定位到calling相关代码
+查找字符串 "[ Calling %s @ %p for '%s' ]"
+
+.text:00002744                 ADD             R1, PC  ; "linker"
+.text:00002746                 ADD             R2, PC  ; "[ Calling %s @ %p for '%s' ]"
+.text:00002748                 BL              sub_45F4
+.text:0000274C
+.text:0000274C loc_274C                                ; CODE XREF: sub_2720+16↑j
+.text:0000274C                 BLX             R4
+
+记录在找到的地方下面 BLX R4 的偏移地址 (与调试中的linker基地址相加) 下断 即可进入 so 的 initarray
+0x400DB000 + 0x274c
+0x400dd74c
+
+Jni_Onload 断点 
+在 initarray 下断 判断相应so是否加载 如果加载则去加载的so找到 Jni_Onload 的地址进行下断 

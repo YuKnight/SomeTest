@@ -261,6 +261,96 @@ nothing to commit, working tree clean
 
 
 
+删除文件
+DESKTOP-6976CHD MINGW64 /d/SomeTest (master)
+$ git rm vulneras.txt.orig
+rm 'vulneras.txt.orig'
+
+
+
+
+
+
+
+
+
+
+
+gitignore:
+
+如果有些文件已经被你忽略了，当你使用git add时是无法添加的，比如我忽略了*.class，现在我想把HelloWorld.class添加到git中去：
+
+$ git add HelloWorld.class
+The following paths are ignored by one of your .gitignore files:
+HelloWorld.class
+Use -f if you really want to add them.
+git会提示我们这个文件已经被我们忽略了，需要加上-f参数才能强制添加到git中去：
+
+$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+        new file:   .gitignore
+        new file:   HelloWorld.class
+        new file:   HelloWorld.java
+这样就能强制添加到缓存中去了。
+如果我们意外的将想要忽略的文件添加到缓存中去了，我们可以使用rm命令将其从中移除：
+
+$ git rm HelloWorld.class --cached
+rm 'HelloWorld.class'
+如果你已经把不想上传的文件上传到了git仓库，那么你必须先从远程仓库删了它，我们可以从远程仓库直接删除然后pull代码到本地仓库这些文件就会本删除，或者从本地删除这些文件并且在.gitignore文件中添加这些你想忽略的文件，然后再push到远程仓库。
+
+5.查看gitignore规则
+如果你发下.gitignore写得有问题，需要找出来到底哪个规则写错了，可以用git check-ignore命令检查：
+
+$ git check-ignore -v HelloWorld.class
+.gitignore:1:*.class    HelloWorld.class
+可以看到HelloWorld.class匹配到了我们的第一条*.class的忽略规则所以文件被忽略了。
+
+6.忽略规则文件语法
+a.忽略指定文件/目录
+# 忽略指定文件
+HelloWrold.class
+
+# 忽略指定文件夹
+bin/
+bin/gen/
+b.通配符忽略规则
+通配符规则如下：
+
+# 忽略.class的所有文件
+*.class
+
+# 忽略名称中末尾为ignore的文件夹
+*ignore/
+
+# 忽略名称中间包含ignore的文件夹
+*ignore*/
+
+# 此为注释 – 将被 Git 忽略
+*.a       # 忽略所有 .a 结尾的文件
+!lib.a    # 但 lib.a 除外
+/TODO     # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
+build/    # 忽略 build/ 目录下的所有文件
+doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
